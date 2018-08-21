@@ -1,0 +1,110 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/19/2013  23:09:41  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\学习软件\KEIL UVISION4\C51\BIN\BL51.EXE .\obj\PWM调光.obj TO .\obj\PWM调光 PRINT (.\obj\PWM调光.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\PWM调光.obj (PWM调筥)
+  D:\学习软件\KEIL UVISION4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\PWM调光 (PWM调筥)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         _DATA_GROUP_
+            IDATA   000CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0099H     UNIT         ?PR?MAIN?PWM调筥
+            CODE    009CH     0018H     UNIT         ?PR?_DELAY?PWM调筥
+            CODE    00B4H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\PWM调光 (PWM调筥)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?PWM调筥
+
+?PR?MAIN?PWM调筥               0008H    0004H
+  +--> ?PR?_DELAY?PWM调筥
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\PWM调光 (PWM调筥)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        PWM调筥
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        main
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/19/2013  23:09:41  PAGE 2
+
+
+  B:00A0H.0       PUBLIC        P20
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  C:00AAH         PUBLIC        _Delay
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        CYCLE
+  D:000AH         SYMBOL        PWM_LOW
+  -------         ENDDO         
+  C:0003H         LINE#         18
+  C:0003H         LINE#         19
+  C:0003H         LINE#         21
+  C:000EH         LINE#         22
+  C:000EH         LINE#         23
+  C:000EH         LINE#         24
+  C:0039H         LINE#         25
+  C:003CH         LINE#         26
+  C:0043H         LINE#         27
+  C:0054H         LINE#         30
+  C:0057H         LINE#         31
+  C:005EH         LINE#         32
+  C:005EH         LINE#         33
+  C:0061H         LINE#         35
+  C:006BH         LINE#         36
+  C:006EH         LINE#         37
+  C:0085H         LINE#         39
+  C:0088H         LINE#         40
+  C:008FH         LINE#         41
+  C:008FH         LINE#         42
+  C:0092H         LINE#         44
+  -------         ENDPROC       MAIN
+  -------         PROC          L?0022
+  -------         ENDPROC       L?0022
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        t
+  C:00AAH         LINE#         53
+  C:00AAH         LINE#         54
+  C:00AAH         LINE#         55
+  C:00B3H         LINE#         56
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        PWM调筥
+
+Program Size: data=13.0 xdata=0 code=192
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

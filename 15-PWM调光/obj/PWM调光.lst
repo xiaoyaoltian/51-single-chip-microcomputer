@@ -1,0 +1,82 @@
+C51 COMPILER V9.00   PWM调筥                                                               05/19/2013 23:09:41 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE PWM调筥
+OBJECT MODULE PLACED IN .\obj\PWM调光.obj
+COMPILER INVOKED BY: D:\学习软件\Keil uVision4\C51\BIN\C51.EXE PWM调光.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\PWM调光.l
+                    -st) OBJECT(.\obj\PWM调光.obj)
+
+line level    source
+
+   1          /*-----------------------------------------------
+   2            名称：PWM调光
+   3            论坛：www.doflye.net
+   4            编写：shifang
+   5            日期：2009.5
+   6            修改：无
+   7            内容：通过PWM（脉宽调制）调节LED的亮度
+   8          ------------------------------------------------*/
+   9          #include<reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  10          
+  11          //sbit LED0=P1^0;// 用sbit 关键字 定义 LED到P1.0端口，LED是自己任意定义且容易记忆的符号
+  12          sbit P20=P2^0;
+  13          
+  14          void Delay(unsigned int t); //函数声明
+  15          /*------------------------------------------------
+  16                              主函数
+  17          ------------------------------------------------*/
+  18          void main (void)
+  19          {
+  20   1      //unsigned int kk;                  
+  21   1      unsigned int CYCLE=100,PWM_LOW=0;//定义周期并赋值               //       
+  22   1      while (1)         //主循环
+  23   1        {
+  24   2      if(P20==0){Delay(3);if(P20==0){CYCLE=CYCLE+100;if(CYCLE==600){CYCLE=100;}while(P20==0);}}
+  25   2      P1=0XFF;// LED0=1;
+  26   2       Delay(60000);        //特意加延时，可以看到熄灭的过程
+  27   2       for(PWM_LOW=1;PWM_LOW<CYCLE;PWM_LOW++){ //PWM_LOW表示低
+  28   3       //电平时间，这个循环中低电平时长从1累加到CYCLE（周期）的值，即600次
+  29   3      
+  30   3      P1=0X00;        //      LED0=0;        //点亮LED  
+  31   3                      Delay(PWM_LOW);//延时长度，600次循环中从1加至599
+  32   3      P1=0XFF;        //      LED0=1;        //熄灭LED
+  33   3                  Delay(CYCLE-PWM_LOW);//延时长度，600次循环中从599减至1
+  34   3           
+  35   3         }
+  36   2      P1=0X00;// LED0=0;
+  37   2       for(PWM_LOW=CYCLE-1;PWM_LOW>0;PWM_LOW--){ //与逐渐变亮相反的过程
+  38   3      
+  39   3      P1=0X00;        //      LED0=0;
+  40   3                      Delay(PWM_LOW);
+  41   3      P1=0XFF;        //      LED0=1;
+  42   3                  Delay(CYCLE-PWM_LOW);
+  43   3           
+  44   3         }
+  45   2                           //主循环中添加其他需要一直工作的程序
+  46   2        }
+  47   1      }
+  48          /*------------------------------------------------
+  49           延时函数，含有输入参数 unsigned int t，无返回值
+  50           unsigned int 是定义无符号整形变量，其值的范围是
+  51           0~65535
+  52          ------------------------------------------------*/
+  53          void Delay(unsigned int t)
+  54          {
+C51 COMPILER V9.00   PWM调筥                                                               05/19/2013 23:09:41 PAGE 2   
+
+  55   1       while(--t);
+  56   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    177    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

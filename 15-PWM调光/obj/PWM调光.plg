@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\桌面\52单片机 c语言程序\15-PWM调光\PWM调光.uvproj
+Project File Date:  04/21/2012
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling PWM调光.c...
+PWM调光.C(24): error C202: 'P20': undefined identifier
+PWM调光.C(24): error C202: 'P20': undefined identifier
+PWM调光.C(24): error C202: 'P20': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling PWM调光.c...
+linking...
+Program Size: data=13.0 xdata=0 code=192
+creating hex file from ".\obj\PWM调光"...
+".\obj\PWM调光" - 0 Error(s), 0 Warning(s).
