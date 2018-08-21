@@ -1,0 +1,24 @@
+C51 COMPILER V9.01   数_牍_模腳水流                                                        07/16/2016 10:22:20 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE 数_牍_模腳水流
+OBJECT MODULE PLACED IN .\obj\数码管模拟水流.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE 数码管模拟水流.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\数码管模拟水流.lst) OBJEC
+                    -T(.\obj\数码管模拟水流.obj)
+
+line level    source
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     57    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
