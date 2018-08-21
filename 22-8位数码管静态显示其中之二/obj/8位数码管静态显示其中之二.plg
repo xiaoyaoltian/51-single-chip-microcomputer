@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\个人\C语言\52单片机 c语言程序(1)\22-8位数码管静态显示其中之二\8位数码管静态显示其中之二.uvproj
+Project File Date:  04/16/2014
+
+<h2>Output:</h2>
+compiling 8位数码管静态显示其中之二.c...
+8位数码管静态显示其中之二.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 8位数码管静态显示其中之二.c...
+linking...
+Program Size: data=9.0 xdata=0 code=31
+creating hex file from ".\obj\8位数码管静态显示其中之二"...
+".\obj\8位数码管静态显示其中之二" - 0 Error(s), 0 Warning(s).

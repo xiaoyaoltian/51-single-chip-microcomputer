@@ -1,0 +1,24 @@
+C51 COMPILER V9.01   8Î»Êý_ë¹_¾²Ì¬ÏÔÊ¾Æ__Ð_®¶þ                                             07/16/2016 10:06:23 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE 8Î»Êý_ë¹_¾²Ì¬ÏÔÊ¾Æ__Ð_®¶þ
+OBJECT MODULE PLACED IN .\obj\8Î»ÊýÂë¹Ü¾²Ì¬ÏÔÊ¾ÆäÖÐÖ®¶þ.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE 8Î»ÊýÂë¹Ü¾²Ì¬ÏÔÊ¾ÆäÖÐÖ®¶þ.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\8Î»ÊýÂë¹Ü¾²Ì¬Ï
+                    -ÔÊ¾ÆäÖÐÖ®¶þ.lst) OBJECT(.\obj\8Î»ÊýÂë¹Ü¾²Ì¬ÏÔÊ¾ÆäÖÐÖ®¶þ.obj)
+
+line level    source
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     16    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
