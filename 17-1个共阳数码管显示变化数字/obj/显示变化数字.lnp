@@ -1,0 +1,3 @@
+".\obj\显示变化数字.obj" 
+TO ".\obj\显示变化数字" 
+PRINT(".\obj\显示变化数字.m51") RAMSIZE(256) 

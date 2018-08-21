@@ -1,0 +1,24 @@
+C51 COMPILER V9.01   显示盻籣数譥                                                          07/16/2016 10:10:11 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE 显示盻籣数譥
+OBJECT MODULE PLACED IN .\obj\显示变化数字.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE 显示变化数字.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\显示变化数字.lst) OBJECT(.\
+                    -obj\显示变化数字.obj)
+
+line level    source
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     42    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
