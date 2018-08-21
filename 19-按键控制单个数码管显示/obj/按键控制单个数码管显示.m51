@@ -1,0 +1,91 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/19/2013  23:26:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\学习软件\KEIL UVISION4\C51\BIN\BL51.EXE .\obj\按键控制单个数码管显示.obj TO .\obj\按键控制单个数码管显示 PRINT (.\obj
+>> \按键控制单个数码管显示.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\按键控制单个数码管显示.obj (_醇豞频ジ鍪齙牍_显示)
+  D:\学习软件\KEIL UVISION4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\按键控制单个数码管显示 (_醇豞频ジ鍪齙牍_显示)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0055H     UNIT         ?PR?MAIN?_醇豞频ジ鍪齙牍_显示
+            CODE    0058H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0064H     000AH     UNIT         ?CO?_醇豞频ジ鍪齙牍_显示
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\按键控制单个数码管显示 (_醇豞频ジ鍪齙牍_显示)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?_醇豞频ジ鍪齙牍_显示
+
+?PR?MAIN?_醇豞频ジ鍪齙牍_显示
+  +--> ?CO?_醇豞频ジ鍪齙牍_显示
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\按键控制单个数码管显示 (_醇豞频ジ鍪齙牍_显示)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        _醇豞频ジ鍪齙牍_显示
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:0064H         PUBLIC        dofly_table
+  D:00A8H         PUBLIC        IE
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/19/2013  23:26:34  PAGE 2
+
+
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:0003H         LINE#         20
+  C:0003H         LINE#         21
+  C:0003H         LINE#         24
+  C:0003H         LINE#         25
+  C:0003H         LINE#         26
+  C:0006H         LINE#         27
+  C:0028H         LINE#         28
+  C:0028H         LINE#         29
+  C:002DH         LINE#         31
+  C:0032H         LINE#         33
+  C:0037H         LINE#         34
+  C:003CH         LINE#         35
+  C:0041H         LINE#         36
+  C:0046H         LINE#         37
+  C:004FH         LINE#         38
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        _醇豞频ジ鍪齙牍_显示
+
+Program Size: data=9.0 xdata=0 code=110
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
