@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\桌面\52单片机 c语言程序\12-查表显示LED灯\查表显示led灯.uvproj
+Project File Date:  <unknown>
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 查表led显示.c...
+linking...
+Program Size: data=10.0 xdata=0 code=70
+creating hex file from ".\obj\查表显示led灯"...
+".\obj\查表显示led灯" - 0 Error(s), 0 Warning(s).

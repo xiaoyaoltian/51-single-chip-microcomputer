@@ -1,0 +1,3 @@
+".\obj\查表led显示.obj" 
+TO ".\obj\查表显示led灯" 
+PRINT(".\obj\查表显示led灯.m51") RAMSIZE(256) 
