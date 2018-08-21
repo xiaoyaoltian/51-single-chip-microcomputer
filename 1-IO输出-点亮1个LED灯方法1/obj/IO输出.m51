@@ -1,0 +1,88 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/14/2013  16:07:04  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL UVISION4\C51\BIN\BL51.EXE .\obj\点亮1个led方法1.obj TO .\obj\IO输出 PRINT (.\obj\IO输出.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\点亮1个led方法1.obj (点亮1个LED方法1)
+  D:\KEIL UVISION4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\IO输出 (点亮1个LED方法1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     000FH     UNIT         ?PR?DELAY?点亮1个LED方法1
+            CODE    0012H     000EH     UNIT         ?PR?MAIN?点亮1个LED方法1
+            CODE    0020H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\IO输出 (点亮1个LED方法1)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?点亮1个LED方法1
+
+?PR?MAIN?点亮1个LED方法1
+  +--> ?PR?DELAY?点亮1个LED方法1
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\IO输出 (点亮1个LED方法1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        点亮1个LED方法1
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0003H         PUBLIC        delay
+  D:00B8H         PUBLIC        IP
+  C:0012H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/14/2013  16:07:04  PAGE 2
+
+
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:0003H         LINE#         19
+  C:0003H         LINE#         20
+  C:0003H         LINE#         22
+  C:0011H         LINE#         23
+  -------         ENDPROC       DELAY
+  -------         PROC          MAIN
+  C:0012H         LINE#         24
+  C:0012H         LINE#         25
+  C:0012H         LINE#         30
+  C:0012H         LINE#         31
+  C:0012H         LINE#         32
+  C:001EH         LINE#         33
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        点亮1个LED方法1
+
+Program Size: data=9.0 xdata=0 code=44
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

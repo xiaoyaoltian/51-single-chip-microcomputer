@@ -1,0 +1,58 @@
+C51 COMPILER V9.00   点亮1个LED方法1                                                       11/14/2013 16:07:04 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 点亮1个LED方法1
+OBJECT MODULE PLACED IN .\obj\点亮1个led方法1.obj
+COMPILER INVOKED BY: D:\Keil uVision4\C51\BIN\C51.EXE 点亮1个led方法1.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\点亮1个led
+                    -方法1.lst) OBJECT(.\obj\点亮1个led方法1.obj)
+
+line level    source
+
+   1          /*-----------------------------------------------
+   2            名称：IO口高低电平控制
+   3            论坛：www.doflye.net
+   4            编写：shifang
+   5            日期：2009.5
+   6            修改：无
+   7            内容：点亮P1口的一个LED灯
+   8                  该程序是单片机学习中最简单最基础的，
+   9                          通过程序了解如何控制端口的高低电平
+  10          ------------------------------------------------*/
+  11          #include<reg52.h> //包含头文件，一般情况不需要改动，
+  12                            //头文件包含特殊功能寄存器的定义
+  13          
+  14          //sbit LED0=P1^4;// 用sbit 关键字 定义 LED到P1.0端口，
+  15          //sbit LED1=P1^2;              //LED是自己任意定义且容易记忆的符号
+  16          /*------------------------------------------------
+  17                              主函数
+  18          ------------------------------------------------*/
+  19          void delay()
+  20          {
+  21   1       unsigned int i;
+  22   1       for(i=0;i<9000;i++);
+  23   1      }
+  24          void main (void)
+  25          {
+  26   1                        //此方法使用bit位对单个端口赋值
+  27   1      //LED=1; LED0=0; LED1=0;           //将P1.0口赋值 1，对外输出高电平
+  28   1      //LED=0; LED0=1;LED1=1;           //将P1.0口赋值 0，对外输出低电平
+  29   1      //delay();LED=1; delay();
+  30   1      while (1)         //主循环
+  31   1        {
+  32   2         P1=0XFC;delay(); P1=0XFF;delay();            //主循环中添加其他需要一直工作的程序
+  33   2        }
+  34   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     29    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

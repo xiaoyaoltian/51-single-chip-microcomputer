@@ -1,0 +1,3 @@
+".\obj\点亮1个led方法1.obj" 
+TO ".\obj\IO输出" 
+PRINT(".\obj\IO输出.m51") RAMSIZE(256) 
