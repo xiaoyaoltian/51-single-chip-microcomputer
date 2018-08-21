@@ -1,0 +1,106 @@
+C51 COMPILER V9.00   花裚灯                                                                05/19/2013 23:11:16 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 花裚灯
+OBJECT MODULE PLACED IN .\obj\花样灯.obj
+COMPILER INVOKED BY: D:\学习软件\Keil uVision4\C51\BIN\C51.EXE 花样灯.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\花样灯.lst
+                    -) OBJECT(.\obj\花样灯.obj)
+
+line level    source
+
+   1          /*-----------------------------------------------
+   2            名称：IO口高低电平控制
+   3            论坛：www.doflye.net
+   4            编写：shifang
+   5            日期：2009.5
+   6            修改：无
+   7            内容：花样灯一般有两种方法实现：
+   8                  1、程序循环执行
+   9                  2、查表法
+  10                  这里我们两种都使用一下
+  11          ------------------------------------------------*/
+  12          #include<reg52.h>     //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  13          
+  14          /*------------------------------------------------
+  15                            花样表格
+  16          ------------------------------------------------*/
+  17          unsigned char code seg[]={0x7f,0xbf,0xdf,0xef,
+  18                                                            0xf7,0xfb,0xfd,0xfe,
+  19                                                            0xff,0xff,0x00,0x00,
+  20                                                            0x55,0x55,0xaa,0xaa
+  21                                                            };//rom允许情况可以无限添加
+  22          
+  23          void Delay(unsigned int t); //函数声明
+  24          /*------------------------------------------------
+  25                              主函数
+  26          ------------------------------------------------*/
+  27          main()
+  28          {
+  29   1       unsigned char i;                //定义一个无符号字符型
+  30   1                                                                       //局部变量 i 取值范围 0~255
+  31   1       while(1)
+  32   1            {
+  33   2                P1=0xFE;                   //第1个LED亮
+  34   2            for(i=0;i<8;i++)
+  35   2                   {
+  36   3                       Delay(20000);
+  37   3                   P1 <<=1;
+  38   3                       }
+  39   2      
+  40   2            P1=0x7F;                   //第8个LED亮
+  41   2            for(i=0;i<8;i++)
+  42   2                   {
+  43   3                       Delay(20000);
+  44   3                   P1 >>=1;
+  45   3                       }
+  46   2      
+  47   2            P1=0xFE;                  //第1个LED亮
+  48   2            for(i=0;i<8;i++)
+  49   2                   {
+  50   3                       Delay(20000);
+  51   3                   P1 <<=1;
+  52   3                       P1 |=0x01;
+  53   3                       }
+  54   2      
+C51 COMPILER V9.00   花裚灯                                                                05/19/2013 23:11:16 PAGE 2   
+
+  55   2                P1=0x7F;                  //第8个LED亮
+  56   2            for(i=0;i<8;i++)
+  57   2                   {
+  58   3                       Delay(20000);
+  59   3                   P1 >>=1;
+  60   3                       P1 |=0x80;
+  61   3                       }
+  62   2            //下面通过查表方法获得花样参数
+  63   2            for(i=0;i<16;i++)//查表可以简单的显示各种花样 实用性更强
+  64   2                   {
+  65   3                       Delay(20000);
+  66   3               P1=seg[i];
+  67   3                       }
+  68   2            }
+  69   1      
+  70   1      }
+  71          
+  72          /*------------------------------------------------
+  73           延时函数，含有输入参数 unsigned int t，无返回值
+  74           unsigned int 是定义无符号整形变量，其值的范围是
+  75           0~65535
+  76          ------------------------------------------------*/
+  77          void Delay(unsigned int t)
+  78          {
+  79   1       while(--t);
+  80   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    141    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
