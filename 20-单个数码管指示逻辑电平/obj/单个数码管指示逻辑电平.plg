@@ -1,0 +1,23 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\个人\C语言\52单片机 c语言程序(1)\20-单个数码管指示逻辑电平\单个数码管指示逻辑电平.uvproj
+Project File Date:  04/16/2014
+
+<h2>Output:</h2>
+compiling 单个数码管指示逻辑电平.c...
+单个数码管指示逻辑电平.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 单个数码管指示逻辑电平.c...
+linking...
+Program Size: data=9.0 xdata=0 code=31
+creating hex file from ".\obj\单个数码管指示逻辑电平"...
+".\obj\单个数码管指示逻辑电平" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 单个数码管指示逻辑电平.c...
+linking...
+Program Size: data=9.0 xdata=0 code=31
+creating hex file from ".\obj\单个数码管指示逻辑电平"...
+".\obj\单个数码管指示逻辑电平" - 0 Error(s), 0 Warning(s).
