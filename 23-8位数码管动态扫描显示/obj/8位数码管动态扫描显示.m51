@@ -1,0 +1,109 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/20/2013  18:06:09  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\学习软件\KEIL UVISION4\C51\BIN\BL51.EXE .\obj\8位数码管动态扫描显示.obj TO .\obj\8位数码管动态扫描显示 PRINT (.\obj\8
+>> 位数码管动态扫描显示.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\8位数码管动态扫描显示.obj (8位数_牍_禵态扫描显示)
+  D:\学习软件\KEIL UVISION4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\8位数码管动态扫描显示 (8位数_牍_禵态扫描显示)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         _DATA_GROUP_
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     002EH     UNIT         ?PR?MAIN?8位数_牍_禵态扫描显示
+            CODE    0031H     0012H     UNIT         ?CO?8位数_牍_禵态扫描显示
+            CODE    0043H     000CH     UNIT         ?C_C51STARTUP
+            CODE    004FH     000AH     UNIT         ?PR?_DELAY?8位数_牍_禵态扫描显示
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\8位数码管动态扫描显示 (8位数_牍_禵态扫描显示)
+
+
+SEGMENT                                    DATA_GROUP 
+  +--> CALLED SEGMENT                    START    LENGTH
+--------------------------------------------------------
+?C_C51STARTUP                            -----    -----
+  +--> ?PR?MAIN?8位数_牍_禵态扫描显示
+
+?PR?MAIN?8位数_牍_禵态扫描显示           0008H    0001H
+  +--> ?CO?8位数_牍_禵态扫描显示
+  +--> ?PR?_DELAY?8位数_牍_禵态扫描显示
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\8位数码管动态扫描显示 (8位数_牍_禵态扫描显示)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        8位数_牍_禵态扫描显示
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/20/2013  18:06:09  PAGE 2
+
+
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  B:00A0H.2       PUBLIC        LATCH1
+  B:00A0H.3       PUBLIC        LATCH2
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0031H         PUBLIC        dofly_DuanMa
+  C:003BH         PUBLIC        dofly_WeiMa
+  D:00C8H         PUBLIC        T2CON
+  C:004FH         PUBLIC        _Delay
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        i
+  -------         ENDDO         
+  C:0003H         LINE#         25
+  C:0003H         LINE#         26
+  C:0003H         LINE#         27
+  C:0006H         LINE#         28
+  C:0006H         LINE#         29
+  C:0006H         LINE#         30
+  C:000EH         LINE#         31
+  C:0010H         LINE#         32
+  C:0012H         LINE#         34
+  C:001AH         LINE#         35
+  C:001CH         LINE#         36
+  C:001EH         LINE#         38
+  C:0025H         LINE#         39
+  C:0027H         LINE#         40
+  C:002CH         LINE#         41
+  C:002FH         LINE#         42
+  -------         ENDPROC       MAIN
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        t
+  C:004FH         LINE#         49
+  C:004FH         LINE#         50
+  C:004FH         LINE#         51
+  C:0058H         LINE#         52
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        8位数_牍_禵态扫描显示
+
+Program Size: data=10.0 xdata=0 code=89
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
