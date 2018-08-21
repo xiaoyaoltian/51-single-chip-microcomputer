@@ -1,0 +1,3 @@
+".\obj\9작속.obj" 
+TO ".\obj\9작속" 
+PRINT(".\obj\9작속.m51") RAMSIZE(256) 
