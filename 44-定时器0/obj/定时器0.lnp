@@ -1,0 +1,3 @@
+".\obj\定时器0.obj" 
+TO ".\obj\定时器0" 
+PRINT(".\obj\定时器0.m51") RAMSIZE(256) 
