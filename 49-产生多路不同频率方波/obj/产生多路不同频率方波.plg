@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\桌面\52单片机 c语言程序\50-产生多路不同频率方波\产生多路不同频率方波.uvproj
+Project File Date:  <unknown>
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 产生多路不同频率方波.c...
+linking...
+Program Size: data=10.0 xdata=0 code=45
+creating hex file from ".\obj\产生多路不同频率方波"...
+".\obj\产生多路不同频率方波" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 产生多路不同频率方波.c...
+linking...
+Program Size: data=10.0 xdata=0 code=45
+creating hex file from ".\obj\产生多路不同频率方波"...
+".\obj\产生多路不同频率方波" - 0 Error(s), 0 Warning(s).
