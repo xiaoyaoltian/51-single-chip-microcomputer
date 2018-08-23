@@ -1,0 +1,3 @@
+".\obj\产生200mS方波.obj" 
+TO ".\obj\产生200mS方波" 
+PRINT(".\obj\产生200mS方波.m51") RAMSIZE(256) 
