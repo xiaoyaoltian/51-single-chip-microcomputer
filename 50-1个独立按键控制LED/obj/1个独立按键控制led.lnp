@@ -1,0 +1,3 @@
+".\obj\1个独立按键控制led.obj" 
+TO ".\obj\1个独立按键控制led" 
+PRINT(".\obj\1个独立按键控制led.m51") RAMSIZE(256) 
