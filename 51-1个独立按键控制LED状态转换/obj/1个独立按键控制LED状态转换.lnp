@@ -1,0 +1,3 @@
+".\obj\1个独立按键控制LED状态转换.obj" 
+TO ".\obj\1个独立按键控制LED状态转换" 
+PRINT(".\obj\1个独立按键控制LED状态转换.m51") RAMSIZE(256) 

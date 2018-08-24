@@ -1,0 +1,117 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/27/2013  22:31:32  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\Ñ§Ï°Èí¼þ\KEIL UVISION4\C51\BIN\BL51.EXE .\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»».obj TO .\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»» PRIN
+>> T (.\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»».m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»».obj (1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»)
+  D:\Ñ§Ï°Èí¼þ\KEIL UVISION4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»» (1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0015H     UNIT         ?PR?_DELAYMS?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+            CODE    0018H     0014H     UNIT         ?PR?MAIN?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+            CODE    002CH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0038H     0003H     UNIT         ?PR?_DELAYUS2X?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»» (1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+
+?PR?MAIN?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+  +--> ?PR?_DELAYMS?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+
+?PR?_DELAYMS?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+  +--> ?PR?_DELAYUS2X?1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬...
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\1¸ö¶ÀÁ¢°´¼ü¿ØÖÆLED×´Ì¬×ª»» (1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/27/2013  22:31:32  PAGE 2
+
+
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0018H         PUBLIC        main
+  C:0003H         PUBLIC        _DelayMs
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:0090H.2       PUBLIC        LED
+  C:0038H         PUBLIC        _DelayUs2x
+  D:00C8H         PUBLIC        T2CON
+  B:00A0H.0       PUBLIC        KEY
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:0018H         LINE#         20
+  C:0018H         LINE#         21
+  C:0018H         LINE#         23
+  C:001AH         LINE#         24
+  C:001AH         LINE#         25
+  C:001AH         LINE#         27
+  C:001DH         LINE#         28
+  C:001DH         LINE#         29
+  C:0022H         LINE#         30
+  C:0025H         LINE#         31
+  C:0025H         LINE#         32
+  C:0028H         LINE#         33
+  C:0028H         LINE#         34
+  C:002AH         LINE#         35
+  C:002AH         LINE#         36
+  C:002AH         LINE#         37
+  C:002AH         LINE#         41
+  -------         ENDPROC       MAIN
+  -------         PROC          _DELAYUS2X
+  D:0007H         SYMBOL        t
+  C:0038H         LINE#         49
+  C:0038H         LINE#         50
+  C:0038H         LINE#         51
+  C:003AH         LINE#         52
+  -------         ENDPROC       _DELAYUS2X
+  -------         PROC          _DELAYMS
+  D:0006H         SYMBOL        t
+  C:0003H         LINE#         58
+  C:0005H         LINE#         59
+  C:0005H         LINE#         61
+  C:000BH         LINE#         62
+  C:000BH         LINE#         64
+  C:0010H         LINE#         65
+  C:0015H         LINE#         66
+  C:0017H         LINE#         67
+  -------         ENDPROC       _DELAYMS
+  -------         ENDMOD        1¸ö¶ÀÁ¢_´¼ü¿Ø_ÆLED×´Ì¬×ª»»
+
+Program Size: data=9.0 xdata=0 code=59
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

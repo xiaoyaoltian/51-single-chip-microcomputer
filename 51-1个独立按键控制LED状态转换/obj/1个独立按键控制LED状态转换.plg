@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\桌面\52单片机 c语言程序\52-1个独立按键控制LED状态转换\1个独立按键控制LED状态转换.uvproj
+Project File Date:  05/03/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 1个独立按键控制LED状态转换.c...
+linking...
+Program Size: data=9.0 xdata=0 code=59
+creating hex file from ".\obj\1个独立按键控制LED状态转换"...
+".\obj\1个独立按键控制LED状态转换" - 0 Error(s), 0 Warning(s).
