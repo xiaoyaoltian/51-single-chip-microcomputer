@@ -1,0 +1,62 @@
+C51 COMPILER V9.00   抢答器                                                                05/25/2013 21:47:06 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 抢答器
+OBJECT MODULE PLACED IN .\obj\抢答器.obj
+COMPILER INVOKED BY: D:\学习软件\Keil uVision4\C51\BIN\C51.EXE 抢答器.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\抢答器.lst
+                    -) OBJECT(.\obj\抢答器.obj)
+
+line level    source
+
+   1          /*-----------------------------------------------
+   2            名称：抢答器
+   3            名称：单个独立按键控制
+   4            论坛：www.doflye.net
+   5            编写：shifang
+   6            日期：2009.5
+   7            修改：无
+   8            内容： 1、试验目的：了解按键的扫描原理
+   9                   2、实现现象：同时按键抢答，先按的键有效，其他按键锁死 复位后重新开始抢答
+  10                   3、硬件要求：按键 LED灯 
+  11                   原理：最先按下按键者有效，其他均无效
+  12          ------------------------------------------------*/
+  13          #include<reg52.h>     //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  14          
+  15          
+  16          sbit key1=P2^0;//定义按键位置 独立按键模式 
+  17          sbit key2=P2^1;
+  18          sbit key3=P2^2;
+  19          sbit key4=P2^3;
+  20          /*-----------------------------------------------
+  21                              主函数
+  22          ------------------------------------------------*/
+  23          main()
+  24          {
+  25   1      bit Flag;
+  26   1      while(!Flag)//执行一次就停止了 先检测到的相应 复位后有效 
+  27   1                  //（）里为真时进入大括号
+  28   1            {
+  29   2            if(!key1)     {P1=0xFE;Flag=1;}//key1不等于0时，进入
+  30   2                else if(!key2){P1=0xFD;Flag=1;}//
+  31   2                else if(!key3){P1=0xFB;Flag=1;}//
+  32   2                else if(!key4){P1=0xF7;Flag=1;}//
+  33   2            }
+  34   1      while(Flag);
+  35   1      }
+  36          
+  37          
+*** WARNING C290 IN LINE 35 OF 抢答器.C: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     47    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

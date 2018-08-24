@@ -1,0 +1,3 @@
+".\obj\ÇÀ´ðÆ÷.obj" 
+TO ".\obj\ÇÀ´ðÆ÷" 
+PRINT(".\obj\ÇÀ´ðÆ÷.m51") RAMSIZE(256) 
