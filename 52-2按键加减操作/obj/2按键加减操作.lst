@@ -1,0 +1,150 @@
+C51 COMPILER V7.06   2__键加糭操作                                                         05/17/2010 08:21:11 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE 2__键加糭操作
+OBJECT MODULE PLACED IN .\obj\2按键加减操作.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE 2按键加减操作.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\2按键加减操作.lst) OB
+                    -JECT(.\obj\2按键加减操作.obj)
+
+stmt level    source
+
+   1          /*-----------------------------------------------
+   2            名称：单个独立按键控制led输出状态
+   3            论坛：www.doflye.net
+   4            编写：shifang
+   5            日期：2009.5
+   6            修改：无
+   7            内容：按一次按键，led点亮，再按一次熄灭，以此循环
+   8          ------------------------------------------------*/
+   9          #include<reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  10          
+  11          sbit KEY_ADD=P3^3;  //定义按键输入端口
+  12          sbit KEY_DEC=P3^4;
+  13          sbit LED=P1^2;  //定义led输出端口
+  14          
+  15          #define DataPort P0 //定义数据端口 程序中遇到DataPort 则用P0 替换
+  16          sbit LATCH1=P2^0;//定义锁存使能端口 段锁存
+  17          sbit LATCH2=P2^3;//                 位锁存
+  18          
+  19          unsigned char code dofly_DuanMa[10]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};// 显示段码值0~9
+  20          unsigned char code dofly_WeiMa[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};//分别对应相应的数码管点亮,即位
+             -码
+  21          unsigned char TempData[8]; //存储显示值的全局变量
+  22          
+  23          void DelayUs2x(unsigned char t);//函数声明 
+  24          void DelayMs(unsigned char t);
+  25          void Display(unsigned char FirstBit,unsigned char Num);
+  26          /*------------------------------------------------
+  27                              主函数
+  28          ------------------------------------------------*/
+  29          void main (void)
+  30          {
+  31   1      unsigned char num=0;                  
+  32   1      KEY_ADD=1; //按键输入端口电平置高
+  33   1      while (1)         //主循环
+  34   1        {
+  35   2      
+  36   2        if(!KEY_ADD)  //如果检测到低电平，说明按键按下
+  37   2          {
+  38   3               DelayMs(10); //延时去抖，一般10-20ms
+  39   3           if(!KEY_ADD)     //再次确认按键是否按下，没有按下则退出
+  40   3                 {
+  41   4              while(!KEY_ADD);//如果确认按下按键等待按键释放，没有释放则一直等待
+  42   4                     {
+  43   5                         if(num<9)
+  44   5                        num++;
+  45   5      
+  46   5                              }
+  47   4                 }
+  48   3              }
+  49   2      
+  50   2       if(!KEY_DEC)  //如果检测到低电平，说明按键按下
+  51   2          {
+  52   3               DelayMs(10); //延时去抖，一般10-20ms
+  53   3           if(!KEY_DEC)     //再次确认按键是否按下，没有按下则退出
+C51 COMPILER V7.06   2__键加糭操作                                                         05/17/2010 08:21:11 PAGE 2   
+
+  54   3                 {
+  55   4              while(!KEY_DEC);//如果确认按下按键等待按键释放，没有释放则一直等待
+  56   4                     {
+  57   5                     if(num>0)
+  58   5                        num--;
+  59   5                              }
+  60   4                 }
+  61   3              }
+  62   2                 TempData[0]=dofly_DuanMa[num%10];
+  63   2                 Display(0,1);
+  64   2           //主循环中添加其他需要一直工作的程序
+  65   2              
+  66   2        }
+  67   1      }
+  68          /*------------------------------------------------
+  69           uS延时函数，含有输入参数 unsigned char t，无返回值
+  70           unsigned char 是定义无符号字符变量，其值的范围是
+  71           0~255 这里使用晶振12M，精确延时请使用汇编,大致延时
+  72           长度如下 T=tx2+5 uS 
+  73          ------------------------------------------------*/
+  74          void DelayUs2x(unsigned char t)
+  75          {   
+  76   1       while(--t);
+  77   1      }
+  78          /*------------------------------------------------
+  79           mS延时函数，含有输入参数 unsigned char t，无返回值
+  80           unsigned char 是定义无符号字符变量，其值的范围是
+  81           0~255 这里使用晶振12M，精确延时请使用汇编
+  82          ------------------------------------------------*/
+  83          void DelayMs(unsigned char t)
+  84          {
+  85   1           
+  86   1       while(t--)
+  87   1       {
+  88   2           //大致延时1mS
+  89   2           DelayUs2x(245);
+  90   2               DelayUs2x(245);
+  91   2       }
+  92   1      }
+  93          /*------------------------------------------------
+  94           显示函数，用于动态扫描数码管
+  95           输入参数 FirstBit 表示需要显示的第一位，如赋值2表示从第三个数码管开始显示
+  96           如输入0表示从第一个显示。
+  97           Num表示需要显示的位数，如需要显示99两位数值则该值输入2
+  98          ------------------------------------------------*/
+  99          void Display(unsigned char FirstBit,unsigned char Num)
+ 100          {
+ 101   1            unsigned char i;
+ 102   1                
+ 103   1                for(i=0;i<Num;i++)
+ 104   1                 { 
+ 105   2                 DataPort=0;   //清空数据，防止有交替重影
+ 106   2             LATCH1=1;     //段锁存
+ 107   2             LATCH1=0;
+ 108   2      
+ 109   2             DataPort=dofly_WeiMa[i+FirstBit]; //取位码 
+ 110   2             LATCH2=1;     //位锁存
+ 111   2             LATCH2=0;
+ 112   2      
+ 113   2             DataPort=TempData[i]; //取显示数据，段码
+ 114   2             LATCH1=1;     //段锁存
+ 115   2             LATCH1=0;
+C51 COMPILER V7.06   2__键加糭操作                                                         05/17/2010 08:21:11 PAGE 3   
+
+ 116   2             
+ 117   2                 DelayMs(2); // 扫描间隙延时，时间太长会闪烁，太短会造成重影
+ 118   2      
+ 119   2             }
+ 120   1      
+ 121   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    146    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
