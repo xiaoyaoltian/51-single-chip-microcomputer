@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\×ÀÃæ\52µ¥Æ¬»ú cÓïÑÔ³ÌĞò\59-¶ÀÁ¢°´¼üÒÀ´ÎÊäÈëÊı¾İ\¶ÀÁ¢°´¼üÒÀ´ÎÊäÈëÊı¾İ.uvproj
+Project File Date:  <unknown>
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling ¶ÀÁ¢°´¼üÒÀ´ÎÊäÈëÊı¾İ.c...
+¶ÀÁ¢°´¼üÒÀ´ÎÊäÈëÊ¾İ.C(250): warning C291: not every exit path returns a value
+linking...
+Program Size: data=20.0 xdata=0 code=491
+creating hex file from ".\obj\¶ÀÁ¢°´¼üÒÀ´ÎÊäÈëÊı¾İ"...
+".\obj\¶ÀÁ¢°´¼üÒÀ´ÎÊäÈëÊı¾İ" - 0 Error(s), 1 Warning(s).
