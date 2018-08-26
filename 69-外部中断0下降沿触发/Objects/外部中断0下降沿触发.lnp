@@ -1,0 +1,3 @@
+".\Objects\外部中断0下降沿触发.obj" 
+TO ".\Objects\外部中断0下降沿触发" 
+PRINT(".\Listings\外部中断0下降沿触发.m51") RAMSIZE(256) 
