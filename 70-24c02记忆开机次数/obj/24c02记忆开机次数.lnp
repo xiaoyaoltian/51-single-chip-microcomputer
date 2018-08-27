@@ -1,0 +1,6 @@
+".\obj\main.obj",
+".\obj\i2c.obj",
+".\obj\delay.obj",
+".\obj\display.obj" 
+TO ".\obj\24c02记忆开机次数" 
+PRINT(".\obj\24c02记忆开机次数.m51") RAMSIZE(256) 
