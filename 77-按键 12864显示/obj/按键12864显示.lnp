@@ -1,0 +1,4 @@
+".\obj\delay.obj",
+".\obj\按键12864显示.obj" 
+TO ".\obj\按键12864显示" 
+PRINT(".\obj\按键12864显示.m51") RAMSIZE(256) 
