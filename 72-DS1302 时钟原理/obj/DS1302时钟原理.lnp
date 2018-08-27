@@ -1,0 +1,4 @@
+".\obj\DS1302.obj",
+".\obj\main.obj" 
+TO ".\obj\DS1302时钟原理" 
+PRINT(".\obj\DS1302时钟原理.m51") RAMSIZE(256) 
