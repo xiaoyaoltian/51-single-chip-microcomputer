@@ -1,0 +1,4 @@
+".\obj\DS1302.obj",
+".\obj\main.obj" 
+TO ".\obj\ds1302时钟串口自动更新时间" 
+PRINT(".\obj\ds1302时钟串口自动更新时间.m51") RAMSIZE(256) 
