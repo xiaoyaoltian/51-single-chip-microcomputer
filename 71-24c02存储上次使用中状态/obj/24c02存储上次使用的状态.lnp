@@ -1,0 +1,6 @@
+".\obj\main.obj",
+".\obj\delay.obj",
+".\obj\display.obj",
+".\obj\i2c.obj" 
+TO ".\obj\24c02存储上次使用的状态" 
+PRINT(".\obj\24c02存储上次使用的状态.m51") RAMSIZE(256) 
