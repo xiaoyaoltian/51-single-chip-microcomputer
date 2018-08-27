@@ -1,0 +1,297 @@
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:19:32 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\main.lst)
+                    - TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * °æ  È¨  : ºìÃ·¿Æ¼¼¹¤×÷ÊÒ
+   3          * ÂÛ  Ì³  £ºhttps://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     £º2369099714
+   5          * °æÈ¨ËùÓĞ£¬µÁ°æ±Ø¾¿¡£
+   6          * ¹¤  ³Ì   : ds1302Ê±ÖÓ´®¿Ú×Ô¶¯¸üĞÂÊ±¼ä
+   7          * ÎÄ¼şÃû   : ds1302Ê±ÖÓ´®¿Ú×Ô¶¯¸üĞÂÊ±¼ä.c
+   8          * ´¦ÀíÆ÷   : STC89C52RC
+   9          * ±àÒë»·¾³ : Keil 5
+  10          * ÏµÍ³Ê±ÖÓ : 12MHZ
+  11          * °æ    ±¾  : V1.0 
+  12          * Éú³ÉÈÕÆÚ  : 2018-07-14              
+  13          * ĞŞ¸ÄÈÕÆÚ  :  
+  14          * ¼òµ¥ÃèÊö : DS1302ÊµÊ±Ê±ÖÓÊıÂë¹ÜÏÔÊ¾£¬Ê±¼äºÍÈÕÆÚÇĞ»»ÏÔÊ¾ °´ÏÂ°´¼ü£¬Ñ­»·ÇĞ»» 
+  15                  Ê±¼ä¸ñÊ½xx-xx-xx
+  16              ÈÕÆÚ¸ñÊ½xx-xx-xx
+  17              ÖÜÃë¸ñÊ½-x-   xx
+  18              Í¨¹ıdofly×Ô´øµÄ´®¿Úµ÷ÊÔÈí¼ş£¬´ò¿ª´®¿Ú£¬²¨ÌØÂÊÄ¬ÈÏ9600£¬µã»÷¸üĞÂÊ±¼ä¼´¿É£¬Èç¹û²»ĞĞ£¬°´ÏÂ¿ª·¢°å¸´Î»ÖØĞÂ¸üĞ
+             -Â
+  19          *******************************************************************************/
+  20           
+  21          #include<reg52.h> //°üº¬Í·ÎÄ¼ş£¬Ò»°ãÇé¿ö²»ĞèÒª¸Ä¶¯£¬Í·ÎÄ¼ş°üº¬ÌØÊâ¹¦ÄÜ¼Ä´æÆ÷µÄ¶¨Òå
+  22          #include "ds1302.h"
+  23          
+  24          #define KeyPort P3 //¶¨Òå°´¼ü¶Ë¿Ú
+  25          
+  26          #define DataPort P0 //¶¨ÒåÊı¾İ¶Ë¿Ú ³ÌĞòÖĞÓöµ½DataPort ÔòÓÃP0 Ìæ»»
+  27          
+  28          sbit LATCH1=P2^2;//¶¨ÒåËø´æÊ¹ÄÜ¶Ë¿Ú ¶ÎËø´æ
+  29          sbit LATCH2=P2^3;//                 Î»Ëø´æ
+  30          
+  31          bit ReadTimeFlag;//¶¨Òå¶ÁÊ±¼ä±êÖ¾
+  32          bit SetFlag;     //¸üĞÂÊ±¼ä±êÖ¾Î»
+  33          unsigned char time_buf2[16];
+  34          
+  35          unsigned char code dofly_DuanMa[10]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};// ÏÔÊ¾¶ÎÂëÖµ0~9
+  36          unsigned char code dofly_WeiMa[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};//·Ö±ğ¶ÔÓ¦ÏàÓ¦µÄÊıÂë¹ÜµãÁÁ,¼´Î»
+             -Âë
+  37          unsigned char TempData[8]; //´æ´¢ÏÔÊ¾ÖµµÄÈ«¾Ö±äÁ¿
+  38          
+  39          void DelayUs2x(unsigned char t);//us¼¶ÑÓÊ±º¯ÊıÉùÃ÷ 
+  40          void DelayMs(unsigned char t); //ms¼¶ÑÓÊ±
+  41          void Display(unsigned char FirstBit,unsigned char Num);//ÊıÂë¹ÜÏÔÊ¾º¯Êı
+  42          unsigned char KeyScan(void);//¼üÅÌÉ¨Ãè
+  43          void Init_Timer0(void);//¶¨Ê±Æ÷³õÊ¼»¯
+  44          void UART_Init(void);
+  45          /*------------------------------------------------
+  46                              Ö÷º¯Êı
+  47          ------------------------------------------------*/
+  48          void main (void)
+  49          {
+  50   1      unsigned char i,num,displaynum;                  
+  51   1      
+  52   1      Init_Timer0();
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:19:32 PAGE 2   
+
+  53   1      Ds1302_Init();
+  54   1      UART_Init();
+  55   1      while (1)         //Ö÷Ñ­»·
+  56   1        {
+  57   2      
+  58   2      
+  59   2      if(SetFlag)     //Èç¹û½ÓÊÕµ½´®¿ÚĞÅÏ¢Ôò¸üĞÂÊ±ÖÓ
+  60   2        {
+  61   3        for(i=0;i<8;i++)
+  62   3          {
+  63   4          time_buf1[i]=time_buf2[2*i]*10+time_buf2[2*i+1];
+  64   4          }//Êı¾İÕûºÏ£¬Èç2¸öÊı 1ºÍ5ÕûºÏ³É15
+  65   3          Ds1302_Write_Time();
+  66   3          SetFlag=0;       //Ê±ÖÓĞÅÏ¢¸üĞÂºó±êÖ¾Î»ÇåÁã
+  67   3         }
+  68   2      
+  69   2       num=KeyScan();
+  70   2      if(num==1)
+  71   2        {
+  72   3         displaynum++;
+  73   3         if(displaynum==3)
+  74   3            displaynum=0;
+  75   3        }
+  76   2      if(ReadTimeFlag==1)
+  77   2      {
+  78   3        ReadTimeFlag=0;
+  79   3        Ds1302_Read_Time();
+  80   3      if(displaynum==0) //ÏÔÊ¾Ê±¼ä
+  81   3       {
+  82   4       TempData[0]=dofly_DuanMa[time_buf1[4]/10];//Ê±     //Êı¾İµÄ×ª»»£¬ÒòÎÒÃÇ²ÉÓÃÊıÂë¹Ü0~9µÄÏÔÊ¾,½«Êı¾İ·Ö¿ª
+  83   4       TempData[1]=dofly_DuanMa[time_buf1[4]%10];
+  84   4       TempData[2]=0x40;                        //¼ÓÈë"-"
+  85   4       TempData[3]=dofly_DuanMa[time_buf1[5]/10];//·Ö
+  86   4       TempData[4]=dofly_DuanMa[time_buf1[5]%10];
+  87   4       TempData[5]=0x40;
+  88   4       TempData[6]=dofly_DuanMa[time_buf1[6]/10];//Ãë
+  89   4       TempData[7]=dofly_DuanMa[time_buf1[6]%10]; 
+  90   4       } 
+  91   3      else if(displaynum==1)//ÏÔÊ¾ÈÕÆÚ
+  92   3       { 
+  93   4       TempData[0]=dofly_DuanMa[time_buf1[1]/10];//Äê     //Êı¾İµÄ×ª»»£¬ÒòÎÒÃÇ²ÉÓÃÊıÂë¹Ü0~9µÄÏÔÊ¾,½«Êı¾İ·Ö¿ª
+  94   4       TempData[1]=dofly_DuanMa[time_buf1[1]%10];
+  95   4       TempData[2]=0x40;                        //¼ÓÈë"-"
+  96   4       TempData[3]=dofly_DuanMa[time_buf1[2]/10];//ÔÂ
+  97   4       TempData[4]=dofly_DuanMa[time_buf1[2]%10];
+  98   4       TempData[5]=0x40;
+  99   4       TempData[6]=dofly_DuanMa[time_buf1[3]/10];//ÈÕ
+ 100   4       TempData[7]=dofly_DuanMa[time_buf1[3]%10]; 
+ 101   4       }
+ 102   3      else if(displaynum==2)//ÏÔÊ¾ÖÜ  Ãë
+ 103   3       {
+ 104   4       TempData[0]=0x40;        //Êı¾İµÄ×ª»»£¬ÒòÎÒÃÇ²ÉÓÃÊıÂë¹Ü0~9µÄÏÔÊ¾,½«Êı¾İ·Ö¿ª
+ 105   4       TempData[1]=dofly_DuanMa[time_buf1[7]%10];//ÖÜ
+ 106   4       TempData[2]=0x40;  //¼ÓÈë"-"
+ 107   4       TempData[3]=0;
+ 108   4       TempData[4]=0;
+ 109   4       TempData[5]=0;
+ 110   4       TempData[6]=dofly_DuanMa[time_buf1[6]/10];//Ãë
+ 111   4       TempData[7]=dofly_DuanMa[time_buf1[6]%10]; 
+ 112   4       }
+ 113   3       }  
+ 114   2       }
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:19:32 PAGE 3   
+
+ 115   1      }
+ 116          /*------------------------------------------------
+ 117                        ´®¿ÚÍ¨Ñ¶³õÊ¼»¯
+ 118          ------------------------------------------------*/
+ 119          void UART_Init(void)
+ 120          {
+ 121   1          SCON  = 0x50;           // SCON: Ä£Ê½ 1, 8-bit UART, Ê¹ÄÜ½ÓÊÕ  
+ 122   1          TMOD |= 0x20;               // TMOD: timer 1, mode 2, 8-bit ÖØ×°
+ 123   1          TH1   = 0xFD;               // TH1:  ÖØ×°Öµ 9600 ²¨ÌØÂÊ ¾§Õñ 11.0592MHz  
+ 124   1          TR1   = 1;                  // TR1:  timer 1 ´ò¿ª                         
+ 125   1          EA    = 1;                  //´ò¿ª×ÜÖĞ¶Ï
+ 126   1          ES    = 1;                  //´ò¿ª´®¿ÚÖĞ¶Ï
+ 127   1      }
+ 128          /*------------------------------------------------
+ 129           uSÑÓÊ±º¯Êı£¬º¬ÓĞÊäÈë²ÎÊı unsigned char t£¬ÎŞ·µ»ØÖµ
+ 130           unsigned char ÊÇ¶¨ÒåÎŞ·ûºÅ×Ö·û±äÁ¿£¬ÆäÖµµÄ·¶Î§ÊÇ
+ 131           0~255 ÕâÀïÊ¹ÓÃ¾§Õñ12M£¬¾«È·ÑÓÊ±ÇëÊ¹ÓÃ»ã±à,´óÖÂÑÓÊ±
+ 132           ³¤¶ÈÈçÏÂ T=tx2+5 uS 
+ 133          ------------------------------------------------*/
+ 134          void DelayUs2x(unsigned char t)
+ 135          {   
+ 136   1       while(--t);
+ 137   1      }
+ 138          /*------------------------------------------------
+ 139           mSÑÓÊ±º¯Êı£¬º¬ÓĞÊäÈë²ÎÊı unsigned char t£¬ÎŞ·µ»ØÖµ
+ 140           unsigned char ÊÇ¶¨ÒåÎŞ·ûºÅ×Ö·û±äÁ¿£¬ÆäÖµµÄ·¶Î§ÊÇ
+ 141           0~255 ÕâÀïÊ¹ÓÃ¾§Õñ12M£¬¾«È·ÑÓÊ±ÇëÊ¹ÓÃ»ã±à
+ 142          ------------------------------------------------*/
+ 143          void DelayMs(unsigned char t)
+ 144          {
+ 145   1           
+ 146   1       while(t--)
+ 147   1       {
+ 148   2           //´óÖÂÑÓÊ±1mS
+ 149   2           DelayUs2x(245);
+ 150   2         DelayUs2x(245);
+ 151   2       }
+ 152   1      }
+ 153          /*------------------------------------------------
+ 154           ÏÔÊ¾º¯Êı£¬ÓÃÓÚ¶¯Ì¬É¨ÃèÊıÂë¹Ü
+ 155           ÊäÈë²ÎÊı FirstBit ±íÊ¾ĞèÒªÏÔÊ¾µÄµÚÒ»Î»£¬Èç¸³Öµ2±íÊ¾´ÓµÚÈı¸öÊıÂë¹Ü¿ªÊ¼ÏÔÊ¾
+ 156           ÈçÊäÈë0±íÊ¾´ÓµÚÒ»¸öÏÔÊ¾¡£
+ 157           Num±íÊ¾ĞèÒªÏÔÊ¾µÄÎ»Êı£¬ÈçĞèÒªÏÔÊ¾99Á½Î»ÊıÖµÔò¸ÃÖµÊäÈë2
+ 158          ------------------------------------------------*/
+ 159          void Display(unsigned char FirstBit,unsigned char Num)
+ 160          {
+ 161   1            static unsigned char i=0;
+ 162   1          
+ 163   1      
+ 164   1           DataPort=0;   //Çå¿ÕÊı¾İ£¬·ÀÖ¹ÓĞ½»ÌæÖØÓ°
+ 165   1             LATCH1=1;     //¶ÎËø´æ
+ 166   1             LATCH1=0;
+ 167   1      
+ 168   1             DataPort=dofly_WeiMa[i+FirstBit]; //È¡Î»Âë 
+ 169   1             LATCH2=1;     //Î»Ëø´æ
+ 170   1             LATCH2=0;
+ 171   1      
+ 172   1             DataPort=TempData[i]; //È¡ÏÔÊ¾Êı¾İ£¬¶ÎÂë
+ 173   1             LATCH1=1;     //¶ÎËø´æ
+ 174   1             LATCH1=0;
+ 175   1             
+ 176   1           i++;
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:19:32 PAGE 4   
+
+ 177   1             if(i==Num)
+ 178   1              i=0;
+ 179   1      
+ 180   1      
+ 181   1      }
+ 182          /*------------------------------------------------
+ 183                              ¶¨Ê±Æ÷³õÊ¼»¯×Ó³ÌĞò
+ 184          ------------------------------------------------*/
+ 185          void Init_Timer0(void)
+ 186          {
+ 187   1       TMOD |= 0x01;    //Ê¹ÓÃÄ£Ê½1£¬16Î»¶¨Ê±Æ÷£¬Ê¹ÓÃ"|"·ûºÅ¿ÉÒÔÔÚÊ¹ÓÃ¶à¸ö¶¨Ê±Æ÷Ê±²»ÊÜÓ°Ïì         
+ 188   1       //TH0=0x00;        //¸ø¶¨³õÖµ
+ 189   1       //TL0=0x00;
+ 190   1       EA=1;            //×ÜÖĞ¶Ï´ò¿ª
+ 191   1       ET0=1;           //¶¨Ê±Æ÷ÖĞ¶Ï´ò¿ª
+ 192   1       TR0=1;           //¶¨Ê±Æ÷¿ª¹Ø´ò¿ª
+ 193   1      }
+ 194          /*------------------------------------------------
+ 195                           ¶¨Ê±Æ÷ÖĞ¶Ï×Ó³ÌĞò
+ 196          ------------------------------------------------*/
+ 197          void Timer0_isr(void) interrupt 1 
+ 198          {
+ 199   1       static unsigned int num;
+ 200   1       TH0=(65536-2000)/256;      //ÖØĞÂ¸³Öµ 2ms
+ 201   1       TL0=(65536-2000)%256;
+ 202   1       
+ 203   1       Display(0,8);       // µ÷ÓÃÊıÂë¹ÜÉ¨Ãè
+ 204   1       num++;
+ 205   1       if(num==50)        //´óÖÂ100ms
+ 206   1         {
+ 207   2          num=0;
+ 208   2          ReadTimeFlag=1; //¶Á±êÖ¾Î»ÖÃ1
+ 209   2        }
+ 210   1      }
+ 211          
+ 212          /*------------------------------------------------
+ 213          °´¼üÉ¨Ãèº¯Êı£¬·µ»ØÉ¨Ãè¼üÖµ
+ 214          ------------------------------------------------*/
+ 215          unsigned char KeyScan(void)
+ 216          {
+ 217   1       unsigned char keyvalue;
+ 218   1       if(KeyPort!=0xff)
+ 219   1         {
+ 220   2          DelayMs(10);
+ 221   2          if(KeyPort!=0xff)
+ 222   2           {
+ 223   3            keyvalue=KeyPort;
+ 224   3            while(KeyPort!=0xff);
+ 225   3          switch(keyvalue)
+ 226   3          {
+ 227   4           case 0xfe:return 1;break;
+ 228   4           case 0xfd:return 2;break;
+ 229   4           case 0xfb:return 3;break;
+ 230   4           case 0xf7:return 4;break;
+ 231   4           case 0xef:return 5;break;
+ 232   4           case 0xdf:return 6;break;
+ 233   4           case 0xbf:return 7;break;
+ 234   4           case 0x7f:return 8;break;
+ 235   4           default:return 0;break;
+ 236   4          }
+ 237   3          }
+ 238   2         }
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:19:32 PAGE 5   
+
+ 239   1         return 0;
+ 240   1      }
+ 241          /*------------------------------------------------
+ 242                            ´®¿ÚÖĞ¶Ï³ÌĞò
+ 243          ------------------------------------------------*/
+ 244          void UART_SER (void) interrupt 4 //´®ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+ 245          {
+ 246   1          unsigned char Temp;          //¶¨ÒåÁÙÊ±±äÁ¿ 
+ 247   1          unsigned char i;
+ 248   1          if(RI)                        //ÅĞ¶ÏÊÇ½ÓÊÕÖĞ¶Ï²úÉú
+ 249   1           {
+ 250   2          RI=0;                      //±êÖ¾Î»ÇåÁã
+ 251   2          Temp=SBUF;                 //¶ÁÈë»º³åÇøµÄÖµ
+ 252   2          time_buf2[i]=Temp&0x0F;
+ 253   2          i++;
+ 254   2          if(i==16)                  //Á¬Ğø½ÓÊÕ16¸ö×Ö·ûĞÅÏ¢
+ 255   2           {
+ 256   3            i=0;
+ 257   3          SetFlag=1;               //½ÓÊÕÍê³É±êÖ¾Î»ÖÃ1
+ 258   3           }
+ 259   2            SBUF=Temp; //°Ñ½ÓÊÕµ½µÄÖµÔÙ·¢»ØµçÄÔ¶Ë
+ 260   2         }
+ 261   1         if(TI)  //Èç¹ûÊÇ·¢ËÍ±êÖ¾Î»£¬ÇåÁã
+ 262   1           TI=0;
+ 263   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    580    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     27       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
