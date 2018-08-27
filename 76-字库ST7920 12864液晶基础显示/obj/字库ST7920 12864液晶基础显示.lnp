@@ -1,4 +1,0 @@
-".\obj\delay.obj",
-".\obj\字库ST7920 12864液晶基础显示.obj" 
-TO ".\obj\字库ST7920 12864液晶基础显示" 
-PRINT(".\obj\字库ST7920 12864液晶基础显示.m51") RAMSIZE(256) 
