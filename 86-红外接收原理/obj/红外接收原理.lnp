@@ -1,0 +1,3 @@
+".\obj\红外接收原理.obj" 
+TO ".\obj\红外接收原理" 
+PRINT(".\obj\红外接收原理.m51") RAMSIZE(256) 

@@ -1,0 +1,76 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        08/26/2018  15:16:36  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL_V5\C51\BIN\BL51.EXE .\obj\红外接收原理.obj TO .\obj\红外接收原理 PRINT (.\obj\红外接收原理.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\红外接收原理.obj (____________)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\红外接收原理 (____________)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     000CH     UNIT         ?C_C51STARTUP
+            CODE    000FH     0006H     UNIT         ?PR?MAIN?____________
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\红外接收原理 (____________)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?____________
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\红外接收原理 (____________)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ____________
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  B:00B0H.2       PUBLIC        IR_IN
+  D:00B8H         PUBLIC        IP
+  C:000FH         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:0090H.0       PUBLIC        LED
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/26/2018  15:16:36  PAGE 2
+
+
+  -------         PROC          MAIN
+  C:000FH         LINE#         25
+  C:000FH         LINE#         26
+  C:000FH         LINE#         29
+  C:000FH         LINE#         30
+  C:000FH         LINE#         31
+  C:0013H         LINE#         32
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        ____________
+
+Program Size: data=9.0 xdata=0 code=21
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
