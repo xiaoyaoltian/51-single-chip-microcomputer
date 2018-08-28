@@ -1,0 +1,4 @@
+".\obj\串口通讯.obj",
+".\obj\delay.obj" 
+TO ".\obj\串口通讯" 
+PRINT(".\obj\串口通讯.m51") RAMSIZE(256) 
