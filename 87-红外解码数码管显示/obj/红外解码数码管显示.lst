@@ -1,0 +1,24 @@
+C51 COMPILER V9.54   __________________                                                    08/26/2018 15:18:03 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE __________________
+OBJECT MODULE PLACED IN .\obj\红外解码数码管显示.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE 红外解码数码管显示.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.
+                    -\obj\红外解码数码管显示.lst) TABS(2) OBJECT(.\obj\红外解码数码管显示.obj)
+
+line level    source
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    257    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     39    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
