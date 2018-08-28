@@ -1,0 +1,4 @@
+".\obj\delay.obj",
+".\obj\RS485通讯原理.obj" 
+TO ".\obj\RS485通讯原理" 
+PRINT(".\obj\RS485通讯原理.m51") RAMSIZE(256) 
