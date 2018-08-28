@@ -1,0 +1,81 @@
+C51 COMPILER V7.06   _焱鈅_蒧訽理                                                          06/15/2010 11:42:21 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE _焱鈅_蒧訽理
+OBJECT MODULE PLACED IN .\obj\红外发射原理.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE 红外发射原理.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\红外发射原理.lst) OBJE
+                    -CT(.\obj\红外发射原理.obj)
+
+stmt level    source
+
+   1          /*-----------------------------------------------
+   2            名称：红外发射原理
+   3            论坛：www.doflye.net
+   4            编写：shifang
+   5            日期：2009.5
+   6            修改：无
+   7            内容：通过红外发射接收闪烁LED，同普通LED显示程序相同。
+   8            由于主板集成了红外38K调制，所以只需发送需要发送的码即可
+   9          ------------------------------------------------*/
+  10          #include<reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  11          
+  12          sbit IRSend=P1^2;  //定义红外发射
+  13          sbit IRRev =P3^2;  //接收接口
+  14          
+  15          sbit LED = P1^6;   //演示LED
+  16          
+  17          void DelayUs2x(unsigned char t);//us级延时函数声明 
+  18          void DelayMs(unsigned char t); //ms级延时
+  19          void Init_Timer0(void);//定时器初始化
+  20          /*------------------------------------------------
+  21                              主函数
+  22          ------------------------------------------------*/
+  23          void main (void)
+  24          {
+  25   1      Init_Timer0();
+  26   1      while (1)         //主循环
+  27   1        {
+  28   2         LED = IRRev;   //接收值反应到LED
+  29   2         
+  30   2        }
+  31   1      }
+  32          
+  33          /*------------------------------------------------
+  34                              定时器初始化子程序
+  35          ------------------------------------------------*/
+  36          void Init_Timer0(void)
+  37          {
+  38   1       TMOD |= 0x01;    //使用模式1，16位定时器，使用"|"符号可以在使用多个定时器时不受影响                 
+  39   1       //TH0=0x00;          //给定初值
+  40   1       //TL0=0x00;
+  41   1       EA=1;            //总中断打开
+  42   1       ET0=1;           //定时器中断打开
+  43   1       TR0=1;           //定时器开关打开
+  44   1      }
+  45          /*------------------------------------------------
+  46                           定时器中断子程序
+  47          ------------------------------------------------*/
+  48          void Timer0_isr(void) interrupt 1 
+  49          {
+  50   1       TH0=0;           //重新赋值 65.536ms
+  51   1       TL0=0;
+  52   1       
+  53   1       IRSend=!IRSend;//发射管电平取反，表明以周期 65.536x2 ms时间闪烁
+  54   1      
+C51 COMPILER V7.06   _焱鈅_蒧訽理                                                          06/15/2010 11:42:21 PAGE 2   
+
+  55   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     28    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
