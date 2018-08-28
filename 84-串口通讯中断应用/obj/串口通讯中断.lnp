@@ -1,0 +1,3 @@
+".\obj\串口通讯中断.obj" 
+TO ".\obj\串口通讯中断" 
+PRINT(".\obj\串口通讯中断.m51") RAMSIZE(256) 
