@@ -1,0 +1,4 @@
+".\obj\i2c.obj",
+".\obj\main.obj" 
+TO ".\obj\DAÊä³ö¾â³Ý²¨" 
+PRINT(".\obj\DAÊä³ö¾â³Ý²¨.m51") RAMSIZE(256) 

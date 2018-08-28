@@ -1,0 +1,91 @@
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:41:22 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\main.lst)
+                    - TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : DA输出锯齿波
+   7          * 文件名   : DA输出锯齿波.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-07-21              
+  13          * 修改日期  :  
+  14          * 简单描述 : 使用DA输入，数码管显示输出数字量，LED显示模拟电压大小
+  15          *******************************************************************************/
+  16           
+  17          #include <reg52.h>                
+  18          #include "i2c.h"
+  19          
+  20          
+  21          #define AddWr 0x90   //写数据地址 
+  22          #define AddRd 0x91   //读数据地址
+  23          
+  24          /*unsigned char code tab[]={
+  25                                    0,25,50,75,100,125,150,175,200,225,250  //表格数值越多，波形越平滑
+  26                                    };*/
+  27          unsigned char code tab1[]={
+  28                                    0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,
+  29                        170,180,190,200,210,220,230,240,250
+  30                                    };
+  31          
+  32          extern bit ack;
+  33          bit WriteDAC(unsigned char dat,unsigned char num);
+  34          /*------------------------------------------------
+  35                        主程序
+  36          ------------------------------------------------*/
+  37          main()
+  38          {
+  39   1       unsigned char i;
+  40   1       while (1)         //主循环
+  41   1        {
+  42   2        for(i=0;i<26;i++)
+  43   2           WriteDAC(tab1[i],1);
+  44   2        }
+  45   1      }
+  46          
+  47          /*------------------------------------------------
+  48                         写入DA转换数值
+  49          输入参数：dat 表示需要转换的DA数值，范围是0-255
+  50          ------------------------------------------------*/
+  51          bit WriteDAC(unsigned char dat,unsigned char num)
+  52          {  unsigned char i;
+  53   1         Start_I2c();               //启动总线
+  54   1         SendByte(AddWr);             //发送器件地址
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:41:22 PAGE 2   
+
+  55   1           if(ack==0)return(0);
+  56   1         SendByte(0x40);            //发送器件子地址
+  57   1           if(ack==0)return(0);
+  58   1        for(i=0;i<num;i++)
+  59   1           {
+  60   2         SendByte(dat);             //发送数据
+  61   2           if(ack==0)return(0);
+  62   2           }
+  63   1         Stop_I2c();  
+  64   1      }
+*** WARNING C291 IN LINE 64 OF main.c: not every exit path returns a value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     81    ----
+   CONSTANT SIZE    =     26    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
