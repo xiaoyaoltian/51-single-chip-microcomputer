@@ -1,0 +1,86 @@
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:37:59 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\main.lst)
+                    - TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : DA输出演示
+   7          * 文件名   : DA输出演示.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-07-20              
+  13          * 修改日期  :  
+  14          * 简单描述 : 使用DA输入，数码管显示输出数字量，LED显示模拟电压大小
+  15          *******************************************************************************/
+  16           
+  17          #include <reg52.h>                
+  18          #include "i2c.h"
+  19          #include "delay.h"
+  20          #include "display.h"
+  21          
+  22          #define AddWr 0x90   //写数据地址 
+  23          #define AddRd 0x91   //读数据地址
+  24          
+  25          extern bit ack;
+  26          bit WriteDAC(unsigned char dat);
+  27          /*------------------------------------------------
+  28                        主程序
+  29          ------------------------------------------------*/
+  30          main()
+  31          {
+  32   1       unsigned char num=0;
+  33   1       Init_Timer0();
+  34   1       while (1)         //主循环
+  35   1        {
+  36   2       WriteDAC(num);
+  37   2       num++;//连续累加，值从0-255反复循环，并显示在数码管上，
+  38   2       TempData[0]=dofly_DuanMa[num/100];    
+  39   2       TempData[1]=dofly_DuanMa[(num%100)/10];
+  40   2       TempData[2]=dofly_DuanMa[(num%100)%10];
+  41   2       DelayMs(100);
+  42   2        }
+  43   1      }
+  44          
+  45          /*------------------------------------------------
+  46                         写入DA转换数值
+  47          输入参数：dat 表示需要转换的DA数值，范围是0-255
+  48          ------------------------------------------------*/
+  49          bit WriteDAC(unsigned char dat)
+  50          {
+  51   1         Start_I2c();               //启动总线
+  52   1         SendByte(AddWr);             //发送器件地址
+  53   1           if(ack==0)return(0);
+  54   1         SendByte(0x40);            //发送器件子地址
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 11:37:59 PAGE 2   
+
+  55   1           if(ack==0)return(0);
+  56   1         SendByte(dat);             //发送数据
+  57   1           if(ack==0)return(0);
+  58   1         Stop_I2c();  
+  59   1      }
+*** WARNING C291 IN LINE 59 OF main.c: not every exit path returns a value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     97    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
