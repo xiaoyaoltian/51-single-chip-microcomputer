@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\桌面\51 程序\122-1个18B20 温度传感器 数码管显示\18b20温度传感器数码管显示.uvproj
+Project File Date:  <unknown>
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 18b20.c...
+compiling delay.c...
+compiling main.c...
+linking...
+Program Size: data=27.2 xdata=0 code=852
+creating hex file from ".\obj\18b20温度传感器数码管显示"...
+".\obj\18b20温度传感器数码管显示" - 0 Error(s), 0 Warning(s).
