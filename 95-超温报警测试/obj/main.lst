@@ -1,0 +1,173 @@
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 15:42:04 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\main.lst)
+                    - TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : 超温报警测试
+   7          * 文件名   : 超温报警测试.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-04              
+  13          * 修改日期  :  
+  14          * 简单描述 : 显示格式 符号 xxx.x C 
+  15                  可以显示负温度 超过设定温度报警
+  16          *******************************************************************************/
+  17          
+  18          #include <reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  19          #include "18b20.h"
+  20          
+  21          #define DataPort P0 //定义数据端口 程序中遇到DataPort 则用P0 替换
+  22          
+  23          #define OVERTEMP 60 //定义超温报警数值
+  24          sbit LATCH1=P2^2;//定义锁存使能端口 段锁存
+  25          sbit LATCH2=P2^3;//                 位锁存
+  26          
+  27          bit ReadTempFlag;//定义读时间标志
+  28          
+  29          unsigned char code dofly_DuanMa[10]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};// 显示段码值0~9
+  30          unsigned char code dofly_WeiMa[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};//分别对应相应的数码管点亮,即位
+             -码
+  31          unsigned char TempData[8]; //存储显示值的全局变量
+  32          
+  33          
+  34          void Display(unsigned char FirstBit,unsigned char Num);//数码管显示函数
+  35          void Init_Timer0(void);//定时器初始化
+  36          /*------------------------------------------------
+  37                              主函数
+  38          ------------------------------------------------*/
+  39          void main (void)
+  40          {                  
+  41   1      unsigned int TempH,TempL,temp;
+  42   1      Init_Timer0();
+  43   1      while (1)         //主循环
+  44   1        {
+  45   2      
+  46   2      
+  47   2      if(ReadTempFlag==1)
+  48   2      {
+  49   3        ReadTempFlag=0;
+  50   3        temp=ReadTemperature();
+  51   3        if(temp&0x8000)
+  52   3           {
+  53   4           TempData[0]=0x40;//负号标志
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 15:42:04 PAGE 2   
+
+  54   4           temp=~temp;  // 取反加1
+  55   4         temp +=1;
+  56   4         }
+  57   3        else
+  58   3           TempData[0]=0;
+  59   3      
+  60   3           TempH=temp>>4;
+  61   3           TempL=temp&0x0F;
+  62   3           TempL=TempL*6/10;//小数近似处理
+  63   3           
+  64   3        if(TempH>OVERTEMP)//如果超温则提示
+  65   3             TempData[7]=0x76;//显示"H"
+  66   3        else
+  67   3           TempData[7]=0;
+  68   3      
+  69   3      
+  70   3          if(TempH/100==0)
+  71   3          TempData[1]=0;
+  72   3        else
+  73   3            TempData[1]=dofly_DuanMa[TempH/100]; //十位温度
+  74   3          if((TempH/100==0)&&((TempH%100)/10==0))//消隐
+  75   3          TempData[2]=0;
+  76   3        else
+  77   3           TempData[2]=dofly_DuanMa[(TempH%100)/10]; //十位温度
+  78   3           TempData[3]=dofly_DuanMa[(TempH%100)%10]|0x80; //个位温度,带小数点
+  79   3           TempData[4]=dofly_DuanMa[TempL];
+  80   3         TempData[6]=0x39;         //显示C符号
+  81   3        } 
+  82   2       }
+  83   1      }
+  84          
+  85          /*------------------------------------------------
+  86           显示函数，用于动态扫描数码管
+  87           输入参数 FirstBit 表示需要显示的第一位，如赋值2表示从第三个数码管开始显示
+  88           如输入0表示从第一个显示。
+  89           Num表示需要显示的位数，如需要显示99两位数值则该值输入2
+  90          ------------------------------------------------*/
+  91          void Display(unsigned char FirstBit,unsigned char Num)
+  92          {
+  93   1            static unsigned char i=0;
+  94   1          
+  95   1      
+  96   1           DataPort=0;   //清空数据，防止有交替重影
+  97   1             LATCH1=1;     //段锁存
+  98   1             LATCH1=0;
+  99   1      
+ 100   1             DataPort=dofly_WeiMa[i+FirstBit]; //取位码 
+ 101   1             LATCH2=1;     //位锁存
+ 102   1             LATCH2=0;
+ 103   1      
+ 104   1             DataPort=TempData[i]; //取显示数据，段码
+ 105   1             LATCH1=1;     //段锁存
+ 106   1             LATCH1=0;
+ 107   1             
+ 108   1           i++;
+ 109   1             if(i==Num)
+ 110   1              i=0;
+ 111   1      
+ 112   1      
+ 113   1      }
+ 114          /*------------------------------------------------
+ 115                              定时器初始化子程序
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 15:42:04 PAGE 3   
+
+ 116          ------------------------------------------------*/
+ 117          void Init_Timer0(void)
+ 118          {
+ 119   1       TMOD |= 0x01;    //使用模式1，16位定时器，使用"|"符号可以在使用多个定时器时不受影响         
+ 120   1       //TH0=0x00;        //给定初值
+ 121   1       //TL0=0x00;
+ 122   1       EA=1;            //总中断打开
+ 123   1       ET0=1;           //定时器中断打开
+ 124   1       TR0=1;           //定时器开关打开
+ 125   1      }
+ 126          /*------------------------------------------------
+ 127                           定时器中断子程序
+ 128          ------------------------------------------------*/
+ 129          void Timer0_isr(void) interrupt 1 
+ 130          {
+ 131   1       static unsigned int num;
+ 132   1       TH0=(65536-2000)/256;      //重新赋值 2ms
+ 133   1       TL0=(65536-2000)%256;
+ 134   1       
+ 135   1       Display(0,8);       // 调用数码管扫描
+ 136   1       num++;
+ 137   1       if(num==300)        //
+ 138   1         {
+ 139   2          num=0;
+ 140   2          ReadTempFlag=1; //读标志位置1
+ 141   2        }
+ 142   1      }
+ 143          
+ 144          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    401    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
