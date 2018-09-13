@@ -1,0 +1,6 @@
+".\obj\18b20.obj",
+".\obj\1602.obj",
+".\obj\delay.obj",
+".\obj\main.obj" 
+TO ".\obj\温度可调上下限1602液晶显示测试" 
+PRINT(".\obj\温度可调上下限1602液晶显示测试.m51") RAMSIZE(256) 
