@@ -1,0 +1,6 @@
+".\obj\1602.obj",
+".\obj\delay.obj",
+".\obj\main.obj",
+".\obj\ps2.obj" 
+TO ".\obj\ps2╪Эел1602отй╬" 
+PRINT(".\obj\ps2╪Эел1602отй╬.m51") RAMSIZE(256) 

@@ -1,0 +1,181 @@
+C51 COMPILER V9.54   PS2                                                                   08/26/2018 15:49:23 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE PS2
+OBJECT MODULE PLACED IN .\obj\ps2.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE ps2.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\ps2.lst) T
+                    -ABS(2) OBJECT(.\obj\ps2.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : ps2键盘1602显示
+   7          * 文件名   : ps2键盘1602显示.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-06              
+  13          * 修改日期  :  
+  14          * 简单描述 :此程序使用标准PS2键盘输入，LCD1602液晶屏输出显示。此样例仅作测试使用
+  15          晶振使用12M或者11.0592M,本键盘使用部分字母和数字测试，其他按键不能使用，用
+  16          户可以自行扩展。由于开发板和程序的各种参数，程序中没有使用奇偶校验，不保证没有
+  17          误码,校验程序请自行添加。
+  18          *******************************************************************************/
+  19          #include<reg52.h>        //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  20          #include "scancodes.h"
+  21          #include "ps2.h"
+  22          #include "1602.h"
+  23          
+  24          sbit Key_Data = P3^3 ;   //定义Keyboard引脚
+  25          sbit Key_CLK  = P3^2;      //使用中断
+  26          
+  27          
+  28          bit BF=0;          
+  29          bit Shift;               //定义上档键标志
+  30          bit Key_UP;              //定义通码断码标志
+  31          unsigned char KeyV;
+  32          unsigned char IntNum;
+  33          unsigned char DisNum;
+  34          
+  35          /*-----------------------------------------------
+  36                        外部中断读入信息
+  37          -----------------------------------------------*/
+  38          void Keyboard_out(void) interrupt 0
+  39          {
+  40   1      if ((IntNum > 0) && (IntNum < 9))
+  41   1         { 
+  42   2        KeyV = KeyV >> 1;                //因键盘数据是低>>高，结合上一句所以右移一位
+  43   2        if (Key_Data)
+  44   2            KeyV = KeyV | 0x80;          //当键盘数据线为1时到最高位
+  45   2        }
+  46   1        IntNum++;
+  47   1        while (!Key_CLK);                //等待PS/2CLK拉高
+  48   1      
+  49   1        if (IntNum > 10)
+  50   1           { 
+  51   2          IntNum = 0;                  //当中断11次后表示一帧数据收完，清变量准备下一次接收
+  52   2          BF = 1;                      //标识有字符输入完了
+  53   2          EA = 0;                      //关中断等显示完后再开中断 
+  54   2          }
+C51 COMPILER V9.54   PS2                                                                   08/26/2018 15:49:23 PAGE 2   
+
+  55   1      }
+  56          
+  57          /*-----------------------------------------------
+  58                          解码信息
+  59          注意:如SHIFT+G为12H 34H F0H 34H F0H 12H
+  60          也就是说shift的通码+G的通码+shift的断码+G的断码
+  61          -----------------------------------------------*/
+  62          void Decode(unsigned char ScanCode) //
+  63          {
+  64   1      unsigned char TempCyc,Val; 
+  65   1      if (!Key_UP)                        //当键盘按下时
+  66   1        {
+  67   2        switch (ScanCode)
+  68   2            {
+  69   3            case 0xF0 :             // 当收到0xF0，Key_UP置1表示断码开始
+  70   3              Key_UP = 1;
+  71   3              break;
+  72   3      
+  73   3            case 0x12 :             // 左 SHIFT
+  74   3              Shift = 1;
+  75   3              break;
+  76   3      
+  77   3            case 0x59 :             // 右 SHIFT
+  78   3              Shift = 1;
+  79   3              break;
+  80   3      
+  81   3            default: 
+  82   3              if(!Shift)          //如果SHIFT没按下
+  83   3                {
+  84   4                for (TempCyc = 0;(UnShifted[TempCyc][0]!=ScanCode)&&(TempCyc<59); TempCyc++); //查表显示
+  85   4                if (UnShifted[TempCyc][0] == ScanCode)
+  86   4                  {
+  87   5                    Val= UnShifted[TempCyc][1];
+  88   5                  LCD_Write_Char(DisNum%16,DisNum/16,Val);
+  89   5                  DisNum++;
+  90   5                    if(DisNum==33)
+  91   5                      {
+  92   6                      LCD_Clear(); //清屏
+  93   6                      DisNum=0;    //重头写数据
+  94   6                      }
+  95   5                     }
+  96   4                           } 
+  97   3              else //按下SHIFT
+  98   3                          {
+  99   4                for(TempCyc = 0; (Shifted[TempCyc][0]!=ScanCode)&&(TempCyc<59); TempCyc++); //查表显示
+ 100   4                if (Shifted[TempCyc][0] == ScanCode)
+ 101   4                             {
+ 102   5                    Val= Shifted[TempCyc][1];
+ 103   5                              LCD_Write_Char(DisNum%16,DisNum/16,Val);
+ 104   5                  DisNum++;
+ 105   5                    if(DisNum==33)
+ 106   5                      {
+ 107   6                      LCD_Clear(); //清屏
+ 108   6                      DisNum=0;    //重头写数据
+ 109   6                      }
+ 110   5                    }
+ 111   4                            }
+ 112   3                break;
+ 113   3            }
+ 114   2        }
+ 115   1      else
+ 116   1        { 
+C51 COMPILER V9.54   PS2                                                                   08/26/2018 15:49:23 PAGE 3   
+
+ 117   2        Key_UP = 0;
+ 118   2        switch (ScanCode) //当键松开时不处理判码，如G 34H F0H 34H 那么第二个34H不会被处理
+ 119   2            {
+ 120   3            case 0x12 : // 左 SHIFT
+ 121   3              Shift = 0;
+ 122   3              break;
+ 123   3      
+ 124   3            case 0x59 : // 右 SHIFT
+ 125   3              Shift = 0;
+ 126   3              break;
+ 127   3            }
+ 128   2        }
+ 129   1      BF = 0; //标识字符处理完了
+ 130   1      
+ 131   1      } 
+ 132          
+ 133          /*-----------------------------------------------
+ 134               ps2初始化（实际初始化外部中断）
+ 135          -----------------------------------------------*/
+ 136          void PS2_Init(void)
+ 137          {
+ 138   1       IT1 = 0;                              //设外部中断1为低电平触发
+ 139   1       EA = 1;                               //外部中断开
+ 140   1       EX0 = 1;                              //开中断
+ 141   1      }
+ 142          /*-----------------------------------------------
+ 143                             读取键盘值
+ 144          -----------------------------------------------*/
+ 145          void Read_KeyBoard(void)
+ 146          {
+ 147   1      
+ 148   1       if (BF)
+ 149   1         Decode(KeyV);
+ 150   1       else
+ 151   1         EA = 1; //开中断
+ 152   1      }
+ 153          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    304    ----
+   CONSTANT SIZE    =    236    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
