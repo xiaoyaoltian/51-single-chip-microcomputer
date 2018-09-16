@@ -1,0 +1,6 @@
+".\obj\delay.obj",
+".\obj\display.obj",
+".\obj\i2c.obj",
+".\obj\main.obj" 
+TO ".\obj\自动调光测试" 
+PRINT(".\obj\自动调光测试.m51") RAMSIZE(256) 
