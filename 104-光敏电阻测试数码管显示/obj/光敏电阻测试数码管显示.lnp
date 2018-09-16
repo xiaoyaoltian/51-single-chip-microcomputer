@@ -1,0 +1,6 @@
+".\obj\delay.obj",
+".\obj\display.obj",
+".\obj\i2c.obj",
+".\obj\main.obj" 
+TO ".\obj\光敏电阻测试数码管显示" 
+PRINT(".\obj\光敏电阻测试数码管显示.m51") RAMSIZE(256) 
