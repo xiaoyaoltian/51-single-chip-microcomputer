@@ -1,0 +1,141 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/28/2013  13:49:40  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\学习软件\KEIL UVISION4\C51\BIN\BL51.EXE .\obj\电子琴.obj TO .\obj\电子琴 PRINT (.\obj\电子琴.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\obj\电子琴.obj (电子琴)
+  D:\学习软件\KEIL UVISION4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\obj\电子琴 (电子琴)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?电子琴
+            DATA    000AH     0001H     UNIT         _DATA_GROUP_
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0008H     UNIT         ?PR?INIT_TIMER0?电子琴
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0082H     UNIT         ?PR?MAIN?电子琴
+            CODE    0090H     0010H     UNIT         ?CO?电子琴
+            CODE    00A0H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00ACH     0009H     UNIT         ?PR?TIMER0_ISR?电子琴
+
+
+
+OVERLAY MAP OF MODULE:   .\obj\电子琴 (电子琴)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?电子琴
+
+?PR?MAIN?电子琴                000AH    0001H
+  +--> ?PR?INIT_TIMER0?电子琴
+  +--> ?CO?电子琴
+
+
+
+SYMBOL TABLE OF MODULE:  .\obj\电子琴 (电子琴)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        电子琴
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/28/2013  13:49:40  PAGE 2
+
+
+  D:0008H         PUBLIC        High
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:000EH         PUBLIC        main
+  C:0003H         PUBLIC        Init_Timer0
+  C:0090H         PUBLIC        freq
+  D:0009H         PUBLIC        Low
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  C:00ACH         PUBLIC        Timer0_isr
+  D:00C8H         PUBLIC        T2CON
+  B:0090H.0       PUBLIC        SPK
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:000AH         SYMBOL        num
+  -------         ENDDO         
+  C:000EH         LINE#         38
+  C:000EH         LINE#         39
+  C:000EH         LINE#         42
+  C:0011H         LINE#         43
+  C:0013H         LINE#         44
+  C:0013H         LINE#         45
+  C:0013H         LINE#         46
+  C:0035H         LINE#         47
+  C:0035H         LINE#         48
+  C:003AH         LINE#         49
+  C:003FH         LINE#         50
+  C:0044H         LINE#         51
+  C:0049H         LINE#         52
+  C:004EH         LINE#         53
+  C:0053H         LINE#         54
+  C:0058H         LINE#         55
+  C:005DH         LINE#         56
+  C:0060H         LINE#         57
+  C:0060H         LINE#         60
+  C:0064H         LINE#         61
+  C:0064H         LINE#         62
+  C:0066H         LINE#         63
+  C:0068H         LINE#         64
+  C:006AH         LINE#         66
+  C:006AH         LINE#         67
+  C:007BH         LINE#         68
+  C:008CH         LINE#         69
+  C:008EH         LINE#         70
+  C:008EH         LINE#         71
+  -------         ENDPROC       MAIN
+  -------         PROC          INIT_TIMER0
+  C:0003H         LINE#         78
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/28/2013  13:49:40  PAGE 3
+
+
+  C:0003H         LINE#         79
+  C:0003H         LINE#         80
+  C:0006H         LINE#         81
+  C:0008H         LINE#         82
+  C:000AH         LINE#         84
+  -------         ENDPROC       INIT_TIMER0
+  -------         PROC          TIMER0_ISR
+  C:00ACH         LINE#         88
+  C:00ACH         LINE#         90
+  C:00AFH         LINE#         91
+  C:00B2H         LINE#         93
+  C:00B4H         LINE#         95
+  -------         ENDPROC       TIMER0_ISR
+  -------         ENDMOD        电子琴
+
+Program Size: data=12.0 xdata=0 code=181
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

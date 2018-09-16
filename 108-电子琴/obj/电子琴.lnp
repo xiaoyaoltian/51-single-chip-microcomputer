@@ -1,0 +1,3 @@
+".\obj\电子琴.obj" 
+TO ".\obj\电子琴" 
+PRINT(".\obj\电子琴.m51") RAMSIZE(256) 

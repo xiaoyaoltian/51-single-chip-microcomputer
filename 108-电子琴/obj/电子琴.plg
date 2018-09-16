@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\KK\桌面\52单片机 c语言程序\138-电子琴\电子琴.uvproj
+Project File Date:  04/30/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 电子琴.c...
+linking...
+Program Size: data=12.0 xdata=0 code=181
+creating hex file from ".\obj\电子琴"...
+".\obj\电子琴" - 0 Error(s), 0 Warning(s).
