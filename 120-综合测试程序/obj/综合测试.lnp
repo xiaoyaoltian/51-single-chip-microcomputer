@@ -1,0 +1,13 @@
+".\obj\main.obj",
+".\obj\18b20.obj",
+".\obj\delay.obj",
+".\obj\DS1302.obj",
+".\obj\i2c.obj",
+".\obj\keyboard.obj",
+".\obj\uart.obj",
+".\obj\pcf8591.obj",
+".\obj\LED8x8.obj",
+".\obj\timer.obj",
+".\obj\1602.obj" 
+TO ".\obj\×ÛºÏ²âÊÔ" 
+PRINT(".\obj\×ÛºÏ²âÊÔ.m51") RAMSIZE(256) 

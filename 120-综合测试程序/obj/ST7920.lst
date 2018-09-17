@@ -1,0 +1,147 @@
+C51 COMPILER V7.06   ST7920                                                                07/16/2010 10:05:25 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE ST7920
+OBJECT MODULE PLACED IN .\obj\ST7920.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ST7920.c BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\ST7920.lst) OBJECT(.\obj\ST7
+                    -920.obj)
+
+stmt level    source
+
+   1          /*-----------------------------------------------
+   2            Ãû³Æ£ºst7920×Ö¿âÒº¾§ÏÔÊ¾
+   3            ÂÛÌ³£ºwww.doflye.net
+   4            ±àÐ´£ºshifang
+   5            ÈÕÆÚ£º2009.5
+   6            ÐÞ¸Ä£ºÎÞ
+   7            ÄÚÈÝ£ºÍ¨¹ýÏÔÊ¾×Ö·û¡¢Êý×Ö¡¢ºº×ÖºÍÍ¼Æ¬²âÊÔÒº¾§»ù±¾¹¦ÄÜ
+   8          ------------------------------------------------*/
+   9          #include <reg52.h>
+  10          #include <intrins.h>
+  11          #include "delay.h"
+  12          #include "ST7920.h"
+  13          
+  14          sbit RS = P2^4;
+  15          sbit RW = P2^5;
+  16          sbit E  = P2^6;
+  17          sbit RES = P2^3;
+  18          sbit PSB = P2^1;
+  19          sbit PAUSE = P3^0;
+  20          
+  21          #define DataPort P0        //MCU P0<------> LCM
+  22          
+  23          /*------------------------------------------------
+  24                              ¼ì²âÃ¦Î»
+  25          ------------------------------------------------*/
+  26          void Check_Busy()
+  27          {  
+  28   1          RS=0;
+  29   1          RW=1;
+  30   1          E=1;
+  31   1          DataPort=0xff;
+  32   1          while((DataPort&0x80)==0x80);//Ã¦ÔòµÈ´ý
+  33   1          E=0;
+  34   1      }
+  35          /*------------------------------------------------
+  36                             Ð´ÃüÁî
+  37          ------------------------------------------------*/
+  38          void Write_Cmd(unsigned char Cmd)
+  39          {
+  40   1              Check_Busy();
+  41   1              RS=0;
+  42   1              RW=0;
+  43   1              E=1;
+  44   1              DataPort=Cmd;
+  45   1              DelayUs2x(5);
+  46   1              E=0;
+  47   1              DelayUs2x(5);
+  48   1      }
+  49          /*------------------------------------------------
+  50                              Ð´Êý¾Ý
+  51          ------------------------------------------------*/
+  52          void Write_Data(unsigned char Data)
+  53          {
+  54   1              Check_Busy();
+C51 COMPILER V7.06   ST7920                                                                07/16/2010 10:05:25 PAGE 2   
+
+  55   1              RS=1;
+  56   1              RW=0;
+  57   1              E=1;
+  58   1              DataPort=Data;
+  59   1              DelayUs2x(5);
+  60   1              E=0;
+  61   1              DelayUs2x(5);
+  62   1      }
+  63          /*------------------------------------------------
+  64                             Òº¾§ÆÁ³õÊ¼»¯
+  65          ------------------------------------------------*/
+  66          void Init_ST7920()
+  67          {  
+  68   1         DelayMs(40);           //´óÓÚ40MSµÄÑÓÊ±³ÌÐò
+  69   1         PSB=1;                 //ÉèÖÃÎª8BIT²¢¿Ú¹¤×÷Ä£Ê½
+  70   1         DelayMs(1);            //ÑÓÊ±
+  71   1         RES=0;                 //¸´Î»
+  72   1         DelayMs(1);            //ÑÓÊ±
+  73   1         RES=1;                 //¸´Î»ÖÃ¸ß
+  74   1         DelayMs(10);
+  75   1         Write_Cmd(0x30);       //Ñ¡Ôñ»ù±¾Ö¸Áî¼¯
+  76   1         DelayUs2x(50);         //ÑÓÊ±´óÓÚ100us
+  77   1         Write_Cmd(0x30);       //Ñ¡Ôñ8bitÊý¾ÝÁ÷
+  78   1         DelayUs2x(20);         //ÑÓÊ±´óÓÚ37us
+  79   1         Write_Cmd(0x0c);       //¿ªÏÔÊ¾(ÎÞÓÎ±ê¡¢²»·´°×)
+  80   1         DelayUs2x(50);         //ÑÓÊ±´óÓÚ100us
+  81   1         Write_Cmd(0x01);       //Çå³ýÏÔÊ¾£¬²¢ÇÒÉè¶¨µØÖ·Ö¸ÕëÎª00H
+  82   1         DelayMs(15);           //ÑÓÊ±´óÓÚ10ms
+  83   1         Write_Cmd(0x06);       //Ö¸¶¨ÔÚ×ÊÁÏµÄ¶ÁÈ¡¼°Ð´ÈëÊ±£¬Éè¶¨ÓÎ±êµÄÒÆ¶¯·½Ïò¼°Ö¸¶¨ÏÔÊ¾µÄÒÆÎ»£¬¹â±ê´ÓÓÒÏò×ó¼Ó1Î
+             -»ÒÆ¶¯
+  84   1         DelayUs2x(50);         //ÑÓÊ±´óÓÚ100us
+  85   1      }
+  86          
+  87          /*------------------------------------------------
+  88                             ÏÔÊ¾×Ö·û´®
+  89          x:ºá×ø±êÖµ£¬·¶Î§0~8
+  90          y:×Ý×ø±êÖµ£¬·¶Î§1~4
+  91          ------------------------------------------------*/
+  92          void LCD_PutString(unsigned char x,unsigned char y,unsigned char code *s)
+  93          { 
+  94   1       switch(y)
+  95   1           {
+  96   2                case 1: Write_Cmd(0x80+x);break;
+  97   2                case 2: Write_Cmd(0x90+x);break;
+  98   2                case 3: Write_Cmd(0x88+x);break;
+  99   2                case 4: Write_Cmd(0x98+x);break;
+ 100   2            default:break;
+ 101   2               }
+ 102   1       while(*s>0)
+ 103   1         { 
+ 104   2            Write_Data(*s);
+ 105   2            s++;
+ 106   2            DelayUs2x(50);
+ 107   2         }
+ 108   1      }
+ 109          /*------------------------------------------------
+ 110                                ÇåÆÁ
+ 111          ------------------------------------------------*/
+ 112          void ClrScreen()
+ 113          { 
+ 114   1         Write_Cmd(0x01);
+ 115   1         DelayMs(15);
+C51 COMPILER V7.06   ST7920                                                                07/16/2010 10:05:25 PAGE 3   
+
+ 116   1      }
+ 117                  
+ 118          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    229    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

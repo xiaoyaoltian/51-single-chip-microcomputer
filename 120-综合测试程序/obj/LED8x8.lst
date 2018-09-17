@@ -1,0 +1,134 @@
+C51 COMPILER V9.54   LED8X8                                                                08/27/2018 10:18:54 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE LED8X8
+OBJECT MODULE PLACED IN .\obj\LED8x8.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE LED8x8.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\LED8x8.
+                    -lst) TABS(2) OBJECT(.\obj\LED8x8.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : 综合测试
+   7          * 文件名   : 综合测试.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-29              
+  13          * 修改日期  :  
+  14          * 简单描述 : 使用hc595驱动双色点阵
+  15          *******************************************************************************/
+  16           
+  17          #include<reg52.h>    //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  18          #include <intrins.h> 
+  19          #include "LED8x8.h"
+  20          #include "delay.h"
+  21          
+  22          unsigned char  segout[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80}; //8列
+  23          /*------------------------------------------------
+  24                          硬件端口定义
+  25          ------------------------------------------------*/
+  26          
+  27          sbit LATCH = P1^0; 
+  28          sbit SRCLK= P1^1;
+  29          sbit SER  = P1^2;
+  30          
+  31          
+  32          sbit LATCH_B = P2^2;
+  33          sbit SRCLK_B= P2^1;
+  34          sbit SER_B= P2^0;
+  35          
+  36          
+  37          /*------------------------------------------------
+  38                          发送字节程序
+  39          ------------------------------------------------*/
+  40          void Send1Byte(unsigned char dat)
+  41          {    
+  42   1        unsigned char i; 
+  43   1              
+  44   1         for(i=0;i<8;i++)
+  45   1              {
+  46   2               SRCLK=0;
+  47   2               SER=dat&0x80;
+  48   2               dat<<=1;
+  49   2               SRCLK=1;
+  50   2               }
+  51   1               
+  52   1      }
+  53          /*------------------------------------------------
+  54                          发送双字节程序
+C51 COMPILER V9.54   LED8X8                                                                08/27/2018 10:18:54 PAGE 2   
+
+  55               595级联，n个595，就需要发送n字节后锁存
+  56          ------------------------------------------------*/
+  57          void Send2Byte(unsigned char dat1,unsigned char dat2)
+  58          {    
+  59   1         Send1Byte(dat1);
+  60   1         Send1Byte(dat2);      
+  61   1      }
+  62          /*------------------------------------------------
+  63                             595锁存程序
+  64                595级联发送数据后，锁存有效
+  65          ------------------------------------------------*/
+  66          void Out595(void)
+  67          {
+  68   1              LATCH=0;
+  69   1              _nop_();
+  70   1              LATCH=1;
+  71   1      }
+  72          
+  73          /*------------------------------------------------
+  74                          发送位码字节程序
+  75                         使用另外一片单独595
+  76          ------------------------------------------------*/
+  77          void SendSeg(unsigned char dat)
+  78          {    
+  79   1      unsigned char i; 
+  80   1              
+  81   1         for(i=0;i<8;i++)  //发送字节
+  82   1              {
+  83   2               SRCLK_B=0;
+  84   2               SER_B=dat&0x80;
+  85   2               dat<<=1;
+  86   2               SRCLK_B=1;
+  87   2               }
+  88   1            LATCH_B=0;    //锁存
+  89   1            _nop_();
+  90   1            LATCH_B=1;
+  91   1               
+  92   1               
+  93   1      }
+  94          /*------------------------------------------------
+  95                             全屏显示
+  96          ------------------------------------------------*/
+  97          void LED8x8Display(void)
+  98          {
+  99   1       static unsigned char i;
+ 100   1       SendSeg(segout[i]);
+ 101   1       Send2Byte(0,0);
+ 102   1       Out595();
+ 103   1       i++;
+ 104   1       if(i==8)
+ 105   1         i=0;
+ 106   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     87    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.54   LED8X8                                                                08/27/2018 10:18:54 PAGE 3   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,121 @@
+C51 COMPILER V9.54   PCF8591                                                               08/27/2018 10:18:54 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE PCF8591
+OBJECT MODULE PLACED IN .\obj\pcf8591.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE pcf8591.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\pcf859
+                    -1.lst) TABS(2) OBJECT(.\obj\pcf8591.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : 综合测试
+   7          * 文件名   : 综合测试.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-29              
+  13          * 修改日期  :  
+  14          * 简单描述 : 使用4路AD中的4路检测外部模拟量输入
+  15          *******************************************************************************/
+  16          #include <reg52.h>                
+  17          #include "i2c.h"
+  18          #include "delay.h"
+  19          #include "pcf8591.h"
+  20          
+  21          #define AddWr 0x90   //写数据地址 
+  22          #define AddRd 0x91   //读数据地址
+  23          
+  24          extern bit ack;
+  25          
+  26          
+  27          /*------------------------------------------------
+  28                             AD处理函数
+  29          ------------------------------------------------*/
+  30          unsigned char  ADCheck(void)
+  31          {
+  32   1       unsigned char num=0,i;
+  33   1       unsigned char Val=0;
+  34   1       for(i=0;i<5;i++)
+  35   1           WriteDAC(0);//写入固定值到DA输出，用于检测
+  36   1       for(i=0;i<5;i++)//连续读5次，输入通道后多读几次，去最后一次值，以便读出稳定值
+  37   1           num=ReadADC(0);
+  38   1       if((num>100)&&(num<150)) // 2.5V
+  39   1          Val++;
+  40   1      
+  41   1       for(i=0;i<5;i++)
+  42   1         num=ReadADC(1);
+  43   1      if((num>100)&&(num<150)) // 2.5V
+  44   1          Val++;  
+  45   1      
+  46   1       for(i=0;i<5;i++)
+  47   1          num=ReadADC(2);
+  48   1      if((num>100)&&(num<150)) // 2.5V
+  49   1          Val++;
+  50   1      
+  51   1       for(i=0;i<5;i++)
+  52   1           num=ReadADC(3);
+  53   1      if((num>100)&&(num<150)) // 2.5V
+  54   1          Val++;
+C51 COMPILER V9.54   PCF8591                                                               08/27/2018 10:18:54 PAGE 2   
+
+  55   1      return Val;
+  56   1      }
+  57          /*------------------------------------------------
+  58                       读AD转值程序
+  59          输入参数 Chl 表示需要转换的通道，范围从0-3
+  60          返回值范围0-255
+  61          ------------------------------------------------*/
+  62          unsigned char ReadADC(unsigned char Chl)
+  63           {
+  64   1        unsigned char Val;
+  65   1         Start_I2c();               //启动总线
+  66   1         SendByte(AddWr);             //发送器件地址
+  67   1           if(ack==0)return(0);
+  68   1         SendByte(0x40|Chl);            //发送器件子地址
+  69   1           if(ack==0)return(0);
+  70   1         Start_I2c();
+  71   1         SendByte(AddRd);
+  72   1            if(ack==0)return(0);
+  73   1         Val=RcvByte();
+  74   1         NoAck_I2c();                 //发送非应位
+  75   1         Stop_I2c();                  //结束总线
+  76   1        return(Val);
+  77   1       }
+  78          /*------------------------------------------------
+  79                         写入DA转换数值
+  80          输入参数：dat 表示需要转换的DA数值，范围是0-255
+  81          ------------------------------------------------*/
+  82          bit WriteDAC(unsigned char dat)
+  83          {
+  84   1         Start_I2c();               //启动总线
+  85   1         SendByte(AddWr);             //发送器件地址
+  86   1           if(ack==0)return(0);
+  87   1         SendByte(0x40);            //发送器件子地址
+  88   1           if(ack==0)return(0);
+  89   1         SendByte(dat);             //发送数据
+  90   1           if(ack==0)return(0);
+  91   1         Stop_I2c();  
+  92   1      }
+  93          
+  94          
+*** WARNING C291 IN LINE 92 OF pcf8591.c: not every exit path returns a value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    257    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

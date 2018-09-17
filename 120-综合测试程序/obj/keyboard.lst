@@ -1,0 +1,97 @@
+C51 COMPILER V9.54   KEYBOARD                                                              08/27/2018 10:18:53 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE KEYBOARD
+OBJECT MODULE PLACED IN .\obj\keyboard.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE keyboard.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\keybo
+                    -ard.lst) TABS(2) OBJECT(.\obj\keyboard.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : 综合测试
+   7          * 文件名   : 综合测试.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-29              
+  13          * 修改日期  :  
+  14          * 简单描述 : 矩阵键盘
+  15          *******************************************************************************/
+  16           
+  17          #include<reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  18          #include"keyboard.h"
+  19          #include"delay.h"
+  20          
+  21          #define KeyPort P0
+  22          
+  23          /*------------------------------------------------
+  24          按键扫描函数，返回扫描键值
+  25          ------------------------------------------------*/
+  26          unsigned char KeyScan(void)  //键盘扫描函数，使用行列反转扫描法
+  27          {
+  28   1       unsigned char cord_h,cord_l;//行列值中间变量
+  29   1       KeyPort=0x0f;            //行线输出全为0
+  30   1       cord_h=KeyPort&0x0f;     //读入列线值
+  31   1       if(cord_h!=0x0f)    //先检测有无按键按下
+  32   1       {
+  33   2        DelayMs(10);        //去抖
+  34   2        if((KeyPort&0x0f)!=0x0f)
+  35   2        {
+  36   3          cord_h=KeyPort&0x0f;  //读入列线值
+  37   3          KeyPort=cord_h|0xf0;  //输出当前列线值
+  38   3          cord_l=KeyPort&0xf0;  //读入行线值
+  39   3      
+  40   3          while((KeyPort&0xf0)!=0xf0);//等待松开并输出
+  41   3      
+  42   3          return(cord_h+cord_l);//键盘最后组合码值
+  43   3         }
+  44   2        }return(0xff);     //返回该值
+  45   1      }
+  46          /*------------------------------------------------
+  47          按键值处理函数，返回扫键值
+  48          ------------------------------------------------*/
+  49          unsigned char KeyPro(void)
+  50          {
+  51   1       switch(KeyScan())
+  52   1       {
+  53   2        case 0x7e:return 0;break;//0 按下相应的键显示相对应的码值
+  54   2        case 0x7d:return 1;break;//1
+C51 COMPILER V9.54   KEYBOARD                                                              08/27/2018 10:18:53 PAGE 2   
+
+  55   2        case 0x7b:return 2;break;//2
+  56   2        case 0x77:return 3;break;//3
+  57   2        case 0xbe:return 4;break;//4
+  58   2        case 0xbd:return 5;break;//5
+  59   2        case 0xbb:return 6;break;//6
+  60   2        case 0xb7:return 7;break;//7
+  61   2        case 0xde:return 8;break;//8
+  62   2        case 0xdd:return 9;break;//9
+  63   2        case 0xdb:return 10;break;//a
+  64   2        case 0xd7:return 11;break;//b
+  65   2        case 0xee:return 12;break;//c
+  66   2        case 0xed:return 13;break;//d
+  67   2        case 0xeb:return 14;break;//e
+  68   2        case 0xe7:return 15;break;//f
+  69   2        default:return 0xff;break;
+  70   2       }
+  71   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    167    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
