@@ -1,0 +1,153 @@
+C51 COMPILER V9.54   MAIN                                                                  08/27/2018 09:54:28 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\main.lst)
+                    - TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : 1602液晶显示计算器
+   7          * 文件名   : 1602液晶显示计算器.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-23            
+  13          * 修改日期  :  
+  14          * 简单描述 : 由于单片机浮点数限制，可以计算6位数字运算，大于这个长度，用科学计数法表示
+  15                  小数位精度后6位，大于6位按四舍五入
+  16          *******************************************************************************/
+  17          
+  18          #include<reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+  19          #include<stdio.h>
+  20          #include"1602.h"
+  21          #include"delay.h"
+  22          #include"keyboard.h"
+  23          
+  24          
+  25          /*------------------------------------------------
+  26                              主程序
+  27          ------------------------------------------------*/
+  28          main()
+  29          {
+  30   1       unsigned char num,i,sign;                  
+  31   1       unsigned char temp[16];        //最大输入16个
+  32   1       bit firstflag;
+  33   1       float a=0,b=0;
+  34   1       unsigned char s;
+  35   1      
+  36   1       
+  37   1       LCD_Init();         //初始化液晶屏
+  38   1       DelayMs(10);        //延时用于稳定，可以去掉
+  39   1       LCD_Clear();        //清屏
+  40   1       LCD_Write_String(0,0,"www.doflye.net");    //写入第一行信息，主循环中不再更改此信息，所以在while之前写入
+  41   1       LCD_Write_String(0,1,"www.findbest.net");    //写入第二行信息，提示输入密码
+  42   1       for(s=0;s<25;s++)//延时5s
+  43   1          DelayMs(200);
+  44   1       LCD_Clear();
+  45   1       LCD_Write_String(0,0," LCD calculator");    //写入第一行信息，主循环中不再更改此信息，所以在while之前写入
+  46   1       LCD_Write_String(0,1," Fun: + - x / ");    //写入第二行信息，提示输入密码
+  47   1      while (1)         //主循环
+  48   1        {
+  49   2      
+  50   2      
+  51   2       num=KeyPro();  //扫描键盘
+  52   2       if(num!=0xff)  //如果扫描是按键有效值则进行处理
+  53   2         { 
+  54   3          if(i==0)    //输入是第一个字符的时候需要把改行清空，方便观看
+C51 COMPILER V9.54   MAIN                                                                  08/27/2018 09:54:28 PAGE 2   
+
+  55   3          LCD_Clear();
+  56   3      
+  57   3        if(('+'==num)|| (i==16) || ('-'==num) || ('x'==num)|| ('/'==num) || ('='==num))//输入数字最大值16，输入符
+             -号表示输入结束
+  58   3          {
+  59   4          i=0;  //计数器复位
+  60   4      
+  61   4         if(firstflag==0)  //如果是输入的第一个数据，赋值给a，并把标志位置1，到下一个数据输入时可以跳转赋值给b
+  62   4             {
+  63   5             sscanf(temp,"%f",&a);
+  64   5               firstflag=1;
+  65   5           }
+  66   4          else  
+  67   4             sscanf(temp,"%f",&b);
+  68   4          for(s=0;s<16;s++) //赋值完成后把缓冲区清零，防止下次输入影响结果
+  69   4              temp[s]=0;
+  70   4            LCD_Write_Char(0,1,num); 
+  71   4          ///////////////////////
+  72   4          if(num!='=')      //判断当前符号位并做相应处理
+  73   4             sign=num;      //如果不是等号记下标志位
+  74   4          else
+  75   4             {  
+  76   5           firstflag=0;   //检测到输入=号，判断上次读入的符合
+  77   5               switch(sign)
+  78   5               {
+  79   6              case '+':a=a+b;
+  80   6            break;
+  81   6            case '-':a=a-b;
+  82   6            break;
+  83   6            case 'x':a=a*b;
+  84   6            break;
+  85   6            case '/':a=a/b;
+  86   6            break;
+  87   6            default:break;
+  88   6             }
+  89   5           sprintf(temp,"%g",a);    //输出浮点型，无用的0不输出
+  90   5               LCD_Write_String(1,1,temp);//显示到液晶屏
+  91   5           sign=0;a=b=0;            //用完后所有数据清零
+  92   5           for(s=0;s<16;s++)
+  93   5              temp[s]=0;
+  94   5           }
+  95   4          }
+  96   3      
+  97   3        else  if(i<16)
+  98   3          {
+  99   4           if((1==i)&& (temp[0]=='0') )//如果第一个字符是0，判读第二个字符
+ 100   4             {
+ 101   5            if(num=='.')  //如果是小数点则正常输入，光标位置加1
+ 102   5              {
+ 103   6              temp[1]='.';
+ 104   6            LCD_Write_Char(1,0,num);//输出数据
+ 105   6            i++;
+ 106   6                  }           //这里没有判断连续按小数点，如0.0.0 
+ 107   5           else
+ 108   5            {
+ 109   6             temp[0]=num; //如果是1-9数字，说明0没有用，则直接替换第一位0
+ 110   6             LCD_Write_Char(0,0,num);//输出数据
+ 111   6             }
+ 112   5           }
+ 113   4           else
+ 114   4             {
+ 115   5               temp[i]=num; 
+C51 COMPILER V9.54   MAIN                                                                  08/27/2018 09:54:28 PAGE 3   
+
+ 116   5               LCD_Write_Char(i,0,num);//输出数据
+ 117   5             i++;   //输入数值累加
+ 118   5           }
+ 119   4           }
+ 120   3        
+ 121   3          } 
+ 122   2        }
+ 123   1      }
+ 124          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    527    ----
+   CONSTANT SIZE    =     69    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      28
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
