@@ -1,0 +1,82 @@
+C51 COMPILER V9.54   KEYBOARD                                                              08/26/2018 16:49:20 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE KEYBOARD
+OBJECT MODULE PLACED IN .\obj\keyboard.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE keyboard.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\keybo
+                    -ard.lst) TABS(2) OBJECT(.\obj\keyboard.obj)
+
+line level    source
+
+   1          
+   2          #include<reg52.h> //包含头文件，一般情况不需要改动，头文件包含特殊功能寄存器的定义
+   3          #include"keyboard.h"
+   4          #include"delay.h"
+   5          
+   6          #define KeyPort P3
+   7          
+   8          /*------------------------------------------------
+   9          按键扫描函数，返回扫描键值
+  10          ------------------------------------------------*/
+  11          unsigned char KeyScan(void)  //键盘扫描函数，使用行列反转扫描法
+  12          {
+  13   1       unsigned char cord_h,cord_l;//行列值中间变量
+  14   1       KeyPort=0x0f;            //行线输出全为0
+  15   1       cord_h=KeyPort&0x0f;     //读入列线值
+  16   1       if(cord_h!=0x0f)    //先检测有无按键按下
+  17   1       {
+  18   2        DelayMs(10);        //去抖
+  19   2        if((KeyPort&0x0f)!=0x0f)
+  20   2        {
+  21   3          cord_h=KeyPort&0x0f;  //读入列线值
+  22   3          KeyPort=cord_h|0xf0;  //输出当前列线值
+  23   3          cord_l=KeyPort&0xf0;  //读入行线值
+  24   3      
+  25   3          while((KeyPort&0xf0)!=0xf0);//等待松开并输出
+  26   3      
+  27   3          return(cord_h+cord_l);//键盘最后组合码值
+  28   3         }
+  29   2        }return(0xff);     //返回该值
+  30   1      }
+  31          /*------------------------------------------------
+  32          按键值处理函数，返回扫键值
+  33          ------------------------------------------------*/
+  34          unsigned char KeyPro(void)
+  35          {
+  36   1       switch(KeyScan())
+  37   1       {
+  38   2        case 0x7e:return 0;break;//0 按下相应的键显示相对应的码值
+  39   2        case 0x7d:return 1;break;//1
+  40   2        case 0x7b:return 2;break;//2
+  41   2        case 0x77:return 3;break;//3
+  42   2        case 0xbe:return 4;break;//4
+  43   2        case 0xbd:return 5;break;//5
+  44   2        case 0xbb:return 6;break;//6
+  45   2        case 0xb7:return 7;break;//7
+  46   2        case 0xde:return 8;break;//8
+  47   2        case 0xdd:return 9;break;//9
+  48   2        case 0xdb:return 10;break;//a
+  49   2        case 0xd7:return 11;break;//b
+  50   2        case 0xee:return 12;break;//c
+  51   2        case 0xed:return 13;break;//d
+  52   2        case 0xeb:return 14;break;//e
+  53   2        case 0xe7:return 15;break;//f
+  54   2        default:return 0xff;break;
+C51 COMPILER V9.54   KEYBOARD                                                              08/26/2018 16:49:20 PAGE 2   
+
+  55   2       }
+  56   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    167    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,103 @@
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 16:49:20 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\main.lst)
+                    - TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * °æ  È¨  : ºìÃ·¿Æ¼¼¹¤×÷ÊÒ
+   3          * ÂÛ  Ì³  £ºhttps://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     £º2369099714
+   5          * °æÈ¨ËùÓÐ£¬µÁ°æ±Ø¾¿¡£
+   6          * ¹¤  ³Ì   : 1602Òº¾§ÏÔÊ¾ ÃÜÂëËø
+   7          * ÎÄ¼þÃû   : 1602Òº¾§ÏÔÊ¾ ÃÜÂëËø.c
+   8          * ´¦ÀíÆ÷   : STC89C52RC
+   9          * ±àÒë»·¾³ : Keil 5
+  10          * ÏµÍ³Ê±ÖÓ : 12MHZ
+  11          * °æ    ±¾  : V1.0 
+  12          * Éú³ÉÈÕÆÚ  : 2018-08-21              
+  13          * ÐÞ¸ÄÈÕÆÚ  :  
+  14          * ¼òµ¥ÃèÊö : µÚÒ»ÐÐÏÔÊ¾¹Ì¶¨ÃÜÂë£¬µÚ¶þÐÐÏÔÊ¾ÊäÈëÃÜÂë£¬ÃÜÂëÊäÈëÍê±Ïºó»áÓÐÕýÈ·»òÕß´íÎóÌáÊ¾,
+  15                  ÎªÁËÑÝÊ¾·½±ã£¬ÌáÊ¾ÃÜÂë£¬ÊäÈëÃÜÂë²¿·ÖÒ²Ã»ÓÐÓÃÐÇºÅ´úÌæ¡£¿ÉÒÔ×ÔÐÐ¸ü»»³ÉÐÇºÅ
+  16          *******************************************************************************/
+  17          
+  18          #include<reg52.h> //°üº¬Í·ÎÄ¼þ£¬Ò»°ãÇé¿ö²»ÐèÒª¸Ä¶¯£¬Í·ÎÄ¼þ°üº¬ÌØÊâ¹¦ÄÜ¼Ä´æÆ÷µÄ¶¨Òå
+  19          #include<stdio.h>
+  20          #include"1602.h"
+  21          #include"delay.h"
+  22          #include"keyboard.h"
+  23          
+  24          
+  25          unsigned char code password[8]={1,2,3,4,5,6,7,8};//¿ÉÒÔ¸ü¸Ä´ËÃÜÂë×ö¶à×é²âÊÔ
+  26          
+  27          /*------------------------------------------------
+  28                              Ö÷³ÌÐò
+  29          ------------------------------------------------*/
+  30          main()
+  31          {
+  32   1       unsigned char num,i,j;                  
+  33   1       unsigned char temp[8];
+  34   1       bit Flag;
+  35   1      
+  36   1       LCD_Init();         //³õÊ¼»¯Òº¾§ÆÁ
+  37   1       DelayMs(10);        //ÑÓÊ±ÓÃÓÚÎÈ¶¨£¬¿ÉÒÔÈ¥µô
+  38   1       LCD_Clear();        //ÇåÆÁ
+  39   1       LCD_Write_String(0,0,"password12345678");    //Ð´ÈëµÚÒ»ÐÐÐÅÏ¢£¬Ö÷Ñ­»·ÖÐ²»ÔÙ¸ü¸Ä´ËÐÅÏ¢£¬ËùÒÔÔÚwhileÖ®Ç°Ð´È
+             -ë
+  40   1       LCD_Write_String(0,1,"Input  password!");    //Ð´ÈëµÚ¶þÐÐÐÅÏ¢£¬ÌáÊ¾ÊäÈëÃÜÂë
+  41   1      while (1)         //Ö÷Ñ­»·
+  42   1        {
+  43   2      
+  44   2      
+  45   2       num=KeyPro();  //É¨Ãè¼üÅÌ
+  46   2       if(num!=0xff)  //Èç¹ûÉ¨ÃèÊÇ°´¼üÓÐÐ§ÖµÔò½øÐÐ´¦Àí
+  47   2         { 
+  48   3          if(i==0)    //ÊäÈëÊÇµÚÒ»¸ö×Ö·ûµÄÊ±ºòÐèÒª°Ñ¸ÄÐÐÇå¿Õ£¬·½±ã¹Û¿´ÃÜÂë
+  49   3          LCD_Write_String(0,1,"                ");//Çå³ý¸ÃÐÐ
+  50   3          if(i<8)     //ÃÜÂëÊÇ8Î»£¬´óÓÚ8Î»Ê±²»ÔÙÊäÈë°´¼üÖµ
+  51   3         {
+  52   4           temp[i]=num;
+  53   4           LCD_Write_Char(i,1,num+'0');
+C51 COMPILER V9.54   MAIN                                                                  08/26/2018 16:49:20 PAGE 2   
+
+  54   4         }
+  55   3        i++;   //ÊäÈëÊýÖµÀÛ¼Ó
+  56   3        if(i==9)//8Î»ºóµÄ°´¼ü²»ÊäÈëÊýÖµ£¬Ïàµ±ÓÚÈ·ÈÏ°´¼ü£¨ÈÎÒâ°´¼ü¼´¿É£©
+  57   3          {
+  58   4          i=0;  //¼ÆÊýÆ÷¸´Î»
+  59   4          Flag=1;//ÏÈ°Ñ±È½ÏÎ»ÖÃ1
+  60   4          for(j=0;j<8;j++)//Ñ­»·±È½Ï8¸öÊýÖµ£¬Èç¹ûÓÐÒ»¸ö²»µÈ Ôò×îÖÕFlagÖµÎª0
+  61   4             Flag=Flag&&(temp[j]==password[j]);//±È½ÏÊäÈëÖµºÍÒÑÓÐÃÜÂë
+  62   4      
+  63   4            if(Flag)//Èç¹û±È½ÏÈ«²¿ÏàÍ¬£¬±êÖ¾Î»ÖÃ1
+  64   4           {
+  65   5              LCD_Write_String(0,1,"Right Open!");//ÃÜÂëÕýÈ·ÏÔÊ¾µÄÐÅÏ¢
+  66   5          }
+  67   4          else 
+  68   4            {
+  69   5          LCD_Write_String(0,1,"Wrong Retry!");//ÃÜÂë´íÎó£¬ÌáÊ¾ÖØÐÂÊäÈë
+  70   5          }
+  71   4      
+  72   4          }
+  73   3          } 
+  74   2        }
+  75   1      }
+  76          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    156    ----
+   CONSTANT SIZE    =     84    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
