@@ -1,0 +1,162 @@
+C51 COMPILER V9.54   1602                                                                  08/26/2018 16:41:46 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN .\obj\1602.obj
+COMPILER INVOKED BY: d:\Keil_v5\C51\BIN\C51.EXE 1602.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\obj\1602.lst)
+                    - TABS(2) OBJECT(.\obj\1602.obj)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * 版  权  : 红梅科技工作室
+   3          * 论  坛  ：https://blog.csdn.net/Qingzhusshuiyun
+   4          * Q Q     ：2369099714
+   5          * 版权所有，盗版必究。
+   6          * 工  程   : 频率计
+   7          * 文件名   : 频率计.c
+   8          * 处理器   : STC89C52RC
+   9          * 编译环境 : Keil 5
+  10          * 系统时钟 : 12MHZ
+  11          * 版    本  : V1.0 
+  12          * 生成日期  : 2018-08-19              
+  13          * 修改日期  :  
+  14          * 简单描述 : 1-VSS 2-VDD 3-V0 4-RS 5-R/W 6-E 7-14 DB0-DB7 15-BLA 16-BLK
+  15          *******************************************************************************/
+  16          #include "1602.h"
+  17          #include "delay.h"
+  18          
+  19          #define CHECK_BUSY
+  20          
+  21          sbit RS = P2^4;   //定义端口 
+  22          sbit RW = P2^5;
+  23          sbit EN = P2^6;
+  24          
+  25          #define RS_CLR RS=0 
+  26          #define RS_SET RS=1
+  27          
+  28          #define RW_CLR RW=0 
+  29          #define RW_SET RW=1 
+  30          
+  31          #define EN_CLR EN=0
+  32          #define EN_SET EN=1
+  33          
+  34          #define DataPort P0
+  35          
+  36          /*------------------------------------------------
+  37                        判忙函数
+  38          ------------------------------------------------*/
+  39           bit LCD_Check_Busy(void) 
+  40           { 
+  41   1      #ifdef CHECK_BUSY
+  42   1       DataPort= 0xFF; 
+  43   1       RS_CLR; 
+  44   1       RW_SET; 
+  45   1       EN_CLR; 
+  46   1       _nop_(); 
+  47   1       EN_SET;
+  48   1       return (bit)(DataPort & 0x80);
+  49   1      #else
+               return 0;
+              #endif
+  52   1       }
+  53          /*------------------------------------------------
+  54                        写入命令函数
+C51 COMPILER V9.54   1602                                                                  08/26/2018 16:41:46 PAGE 2   
+
+  55          ------------------------------------------------*/
+  56           void LCD_Write_Com(unsigned char com) 
+  57           {  
+  58   1       while(LCD_Check_Busy()); //忙则等待
+  59   1       RS_CLR; 
+  60   1       RW_CLR; 
+  61   1       EN_SET; 
+  62   1       DataPort= com; 
+  63   1       _nop_(); 
+  64   1       EN_CLR;
+  65   1       }
+  66          /*------------------------------------------------
+  67                        写入数据函数
+  68          ------------------------------------------------*/
+  69           void LCD_Write_Data(unsigned char Data) 
+  70           { 
+  71   1       while(LCD_Check_Busy()); //忙则等待
+  72   1       RS_SET; 
+  73   1       RW_CLR; 
+  74   1       EN_SET; 
+  75   1       DataPort= Data; 
+  76   1       _nop_();
+  77   1       EN_CLR;
+  78   1       }
+  79          
+  80          /*------------------------------------------------
+  81                          清屏函数
+  82          ------------------------------------------------*/
+  83           void LCD_Clear(void) 
+  84           { 
+  85   1       LCD_Write_Com(0x01); 
+  86   1       DelayMs(5);
+  87   1       }
+  88          /*------------------------------------------------
+  89                        写入字符串函数
+  90          ------------------------------------------------*/
+  91           void LCD_Write_String(unsigned char x,unsigned char y,unsigned char *s) 
+  92           {     
+  93   1             
+  94   1       while (*s) 
+  95   1        {     
+  96   2       LCD_Write_Char(x,y,*s);     
+  97   2       s ++;  x++;   
+  98   2        }
+  99   1       }
+ 100          /*------------------------------------------------
+ 101                        写入字符函数
+ 102          ------------------------------------------------*/
+ 103          void LCD_Write_Char(unsigned char x,unsigned char y,unsigned char Data) 
+ 104           {     
+ 105   1       if (y == 0) 
+ 106   1        {     
+ 107   2        LCD_Write_Com(0x80 + x);     
+ 108   2        }    
+ 109   1       else 
+ 110   1        {     
+ 111   2        LCD_Write_Com(0xC0 + x);     
+ 112   2        }        
+ 113   1       LCD_Write_Data( Data);  
+ 114   1       }
+ 115          /*------------------------------------------------
+ 116                        初始化函数
+C51 COMPILER V9.54   1602                                                                  08/26/2018 16:41:46 PAGE 3   
+
+ 117          ------------------------------------------------*/
+ 118           void LCD_Init(void) 
+ 119           {
+ 120   1         LCD_Write_Com(0x38);    /*显示模式设置*/ 
+ 121   1         DelayMs(5); 
+ 122   1         LCD_Write_Com(0x38); 
+ 123   1         DelayMs(5); 
+ 124   1         LCD_Write_Com(0x38); 
+ 125   1         DelayMs(5); 
+ 126   1         LCD_Write_Com(0x38);  
+ 127   1         LCD_Write_Com(0x08);    /*显示关闭*/ 
+ 128   1         LCD_Write_Com(0x01);    /*显示清屏*/ 
+ 129   1         LCD_Write_Com(0x06);    /*显示光标移动设置*/ 
+ 130   1         DelayMs(5); 
+ 131   1         LCD_Write_Com(0x0C);    /*显示开及光标设置*/
+ 132   1         }
+ 133             
+ 134          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    188    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
